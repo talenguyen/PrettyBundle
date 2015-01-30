@@ -48,4 +48,37 @@ Here are some reasons:
 
 **What do you think?**
 
+**Here are what I am thing**
+### Activity
+Inject extras in the TargetActivity. (Borrow the idea of ButterKnife and Dart).
+```java
+@Extra String name;
+@Extra int age;
+
+@Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    PrettyBundle.inject(this); // call to inject the extra.
+}
+```
+Set extras for the TargetActivity
+```java
+Intent intent = Activities.createTargetActivityIntent("Giang", 26);
+startActivity(intent);
+```
+### Fragment
+Inject extras in the TargetFragment. 
+```java
+@Extra String name;
+@Extra int age;
+
+@Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    PrettyBundle.inject(this); // call to inject the extra.
+}
+```
+Set extras for the TargetFragment.
+```java
+Fragment targetFragment = Fragments.createTargetFragment("Giang", 26);
+```
+
 ## If there is anyone has some other suggestions. Please, let me know before I am getting fail.
