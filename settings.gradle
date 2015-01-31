@@ -1,0 +1,1 @@
+include ':app', ':prettybundle', ':prettybundle-processor'
