@@ -12,7 +12,7 @@ import com.tale.prettybundle.Extra;
  */
 public class TestExtraActivity extends ActionBarActivity {
 
-    @Extra String stringExtra;
+    @Extra int stringExtra;
 
     private TextView tvStringExtra;
 
@@ -21,8 +21,8 @@ public class TestExtraActivity extends ActionBarActivity {
         setContentView(R.layout.activity_test_extra);
 
         tvStringExtra = ((TextView) findViewById(R.id.tvStringExtra));
-        if (TextUtils.isEmpty(stringExtra)) {
-            tvStringExtra.setText(stringExtra);
-        }
+//        if (TextUtils.isEmpty(stringExtra)) {
+//            tvStringExtra.setText(stringExtra);
+//        }
     }
 }
