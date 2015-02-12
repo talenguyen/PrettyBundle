@@ -31,8 +31,8 @@ public class PrettyBundleProcessor extends AbstractProcessor {
     private Elements elementUtils;
     private Filer filer;
     private Messager messager;
-    private Map<String, PackageGroupedClasses> packageGroupedClassesMap = new Hashtable<>();
-    private Map<String, ExtraGroupedClasses> extraGroupedClassesMap = new Hashtable<>();
+    private ActivitiesClassBuilder activitiesClassBuilder = new ActivitiesClassBuilder();
+    private Map<String, ActivityExtrasGrouped> extraGroupedClassesMap = new Hashtable<String, ActivityExtrasGrouped>();
 
     @Override public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
@@ -43,7 +43,7 @@ public class PrettyBundleProcessor extends AbstractProcessor {
     }
 
     @Override public Set<String> getSupportedAnnotationTypes() {
-        Set<String> result = new LinkedHashSet<>();
+        Set<String> result = new LinkedHashSet<String>();
         result.add(Extra.class.getCanonicalName());
         return result;
     }
@@ -69,26 +69,21 @@ public class PrettyBundleProcessor extends AbstractProcessor {
             }
 
             final String activityQualifiedClassName = extraAnnotatedClass.getQualifiedClassName();
-            ExtraGroupedClasses extraGroupedClasses = extraGroupedClassesMap.get(activityQualifiedClassName);
-            if (extraGroupedClasses == null) {
-                extraGroupedClasses = new ExtraGroupedClasses(activityQualifiedClassName);
-                extraGroupedClassesMap.put(activityQualifiedClassName, extraGroupedClasses);
+            ActivityExtrasGrouped activityExtrasGrouped = extraGroupedClassesMap.get(activityQualifiedClassName);
+            if (activityExtrasGrouped == null) {
+                activityExtrasGrouped = new ActivityExtrasGrouped(activityQualifiedClassName);
+                extraGroupedClassesMap.put(activityQualifiedClassName, activityExtrasGrouped);
             }
-            extraGroupedClasses.add(extraAnnotatedClass);
+            activityExtrasGrouped.add(extraAnnotatedClass);
 
-            final String packageOfActivity = getPackageOfActivity(activityQualifiedClassName);
-            PackageGroupedClasses packageGroupedClasses = packageGroupedClassesMap.get(packageOfActivity);
-            if (packageGroupedClasses == null) {
-                packageGroupedClasses = new PackageGroupedClasses(packageOfActivity);
-                packageGroupedClassesMap.put(packageOfActivity, packageGroupedClasses);
+            if (!activitiesClassBuilder.contains(activityExtrasGrouped)) {
+                activitiesClassBuilder.add(activityExtrasGrouped);
             }
         }
 
         try {
-            for (PackageGroupedClasses packageGroupedClasses : packageGroupedClassesMap.values()) {
-                packageGroupedClasses.generateCode(elementUtils, filer);
-            }
-            packageGroupedClassesMap.clear();
+            activitiesClassBuilder.generateCode(elementUtils, typeUtils, filer);
+            activitiesClassBuilder.clear();
         } catch (IOException e) {
             error(null, e.getMessage());
         }

@@ -1,7 +1,19 @@
 apply plugin: 'java'
 
+targetCompatibility = JavaVersion.VERSION_1_6
+sourceCompatibility = JavaVersion.VERSION_1_6
+
+configurations {
+    provided
+}
+
+//Include provided for compilation
+sourceSets.main.compileClasspath += configurations.provided
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':prettybundle')
     compile 'com.google.auto.service:auto-service:1.0-rc1'
+    compile 'com.google.android:android:4.1.1.4'
 }

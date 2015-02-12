@@ -2,7 +2,6 @@ package com.tale.prettybundle.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.tale.prettybundle.Extra;
@@ -10,9 +9,10 @@ import com.tale.prettybundle.Extra;
 /**
  * Created by tale on 2/1/15.
  */
-public class TestExtraActivity extends ActionBarActivity {
+public class TestStringExtra2Activity extends ActionBarActivity {
 
-    @Extra int stringExtra;
+    @Extra String stringExtra1;
+    @Extra String stringExtra2;
 
     private TextView tvStringExtra;
 
