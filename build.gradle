@@ -17,3 +17,9 @@ allprojects {
         jcenter()
     }
 }
+
+ext {
+
+    // the latest version of the android-apt plugin
+    aptPlugin='com.neenbedankt.gradle.plugins:android-apt:1.4'
+}
