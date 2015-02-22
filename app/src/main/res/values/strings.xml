@@ -5,5 +5,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="string_extra">String extra:</string>
+    <string name="string_extra_1">String extra 1</string>
+    <string name="string_extra_2">String extra 2</string>
+    <string name="submit">Submit</string>
 
 </resources>
