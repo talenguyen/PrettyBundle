@@ -2,7 +2,6 @@ package com.tale.prettybundle.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.widget.TextView;
 
 import com.tale.prettybundle.Extra;
 
@@ -13,13 +12,10 @@ public class TestStringExtra1Activity extends ActionBarActivity {
 
     @Extra String stringExtra1;
 
-    private TextView tvStringExtra;
-
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_extra);
 
-        tvStringExtra = ((TextView) findViewById(R.id.tvStringExtra));
 //        if (TextUtils.isEmpty(stringExtra)) {
 //            tvStringExtra.setText(stringExtra);
 //        }
