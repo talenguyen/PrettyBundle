@@ -8,8 +8,8 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
-import com.tale.prettybundle.ExtraGetter;
-import com.tale.prettybundle.ExtraGetterProvider;
+import com.tale.prettybundle.ExtraBinder;
+import com.tale.prettybundle.ExtraBinderProvider;
 import com.tale.prettybundle.Injector;
 import com.tale.prettybundle.PrettyBundle;
 
@@ -76,10 +76,10 @@ public class ActivityInjectorClassBuilder {
         }
         methodBuilder.addStatement("final $T extras = target.getIntent().getExtras()", Bundle.class);
         for (ExtraAnnotatedClass extraAnnotatedClass : extraAnnotatedClasses) {
-            final ExtraGetter extraGetter = ExtraGetterProvider.get(extraAnnotatedClass.getDataTypeQualifiedClassName());
+            final ExtraBinder extraBinder = ExtraBinderProvider.get(extraAnnotatedClass.getDataTypeQualifiedClassName());
             methodBuilder
                     .beginControlFlow("if(extras.containsKey($S))", extraAnnotatedClass.getKey())
-                    .addStatement("$L.$L = ($L)$L.get(extras, $S)", targetName, extraAnnotatedClass.getKey(), extraAnnotatedClass.getDataTypeQualifiedClassName(), ExtraGetter.class.getName() + "." + extraGetter.toString(), extraAnnotatedClass.getKey())
+                    .addStatement("$L.$L = $L.get(extras, $S)", targetName, extraAnnotatedClass.getKey(), ExtraBinder.class.getName() + "." + extraBinder.toString(), extraAnnotatedClass.getKey())
                     .endControlFlow();
         }
     }

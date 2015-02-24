@@ -2,8 +2,8 @@ package com.tale.prettybundle.internal;
 
 import com.google.auto.service.AutoService;
 import com.tale.prettybundle.Extra;
-import com.tale.prettybundle.ExtraGetter;
-import com.tale.prettybundle.ExtraGetterProvider;
+import com.tale.prettybundle.ExtraBinder;
+import com.tale.prettybundle.ExtraBinderProvider;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -126,7 +126,7 @@ public class PrettyBundleProcessor extends AbstractProcessor {
     }
 
     private boolean isSupported(String dataTypeQualifiedClassName) {
-        if (ExtraGetterProvider.get(dataTypeQualifiedClassName) == ExtraGetter.NOP) {
+        if (ExtraBinderProvider.get(dataTypeQualifiedClassName) == ExtraBinder.NOP) {
             return false;
         }
         return true;
