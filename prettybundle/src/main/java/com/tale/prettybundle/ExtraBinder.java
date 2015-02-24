@@ -73,6 +73,33 @@ public enum ExtraBinder {
             bundle.putBoolean(key, (Boolean) value);
         }
     },
+    BYTE {
+        @Override public Byte get(Bundle bundle, String key) {
+            return bundle.getByte(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putByte(key, (Byte) value);
+        }
+    },
+    CHAR {
+        @Override public Character get(Bundle bundle, String key) {
+            return bundle.getChar(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putChar(key, (Character) value);
+        }
+    },
+    SHORT {
+        @Override public Short get(Bundle bundle, String key) {
+            return bundle.getShort(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putShort(key, (Short) value);
+        }
+    },
     NOP {
         @Override public <T> T get(Bundle bundle, String key) {
             return null;
