@@ -125,10 +125,19 @@ public class ActivitiesClassBuilder {
         }
         for (ExtraAnnotatedClass extraAnnotatedClass : extraAnnotatedClasses) {
             final ExtraBinder extraBinder = ExtraBinderProvider.get(extraAnnotatedClass.getDataTypeQualifiedClassName());
-            methodSpecBuilder
-                    .beginControlFlow("if($S != null)", extraAnnotatedClass.getKey())
-                    .addStatement("$L.set($L, $S, $L)", ExtraBinder.class.getName() + "." + extraBinder.toString(), targetName, extraAnnotatedClass.getKey(), extraAnnotatedClass.getKey())
-                    .endControlFlow();
+            if (extraBinder == ExtraBinder.INTEGER
+                    || extraBinder == ExtraBinder.LONG
+                    || extraBinder == ExtraBinder.FLOAT
+                    || extraBinder == ExtraBinder.DOUBLE
+                    || extraBinder == ExtraBinder.BOOLEAN
+                    ) {
+                methodSpecBuilder.addStatement("$L.set($L, $S, $L)", ExtraBinder.class.getName() + "." + extraBinder.toString(), targetName, extraAnnotatedClass.getKey(), extraAnnotatedClass.getKey());
+            } else {
+                methodSpecBuilder
+                        .beginControlFlow("if($L != null)", extraAnnotatedClass.getKey())
+                        .addStatement("$L.set($L, $S, $L)", ExtraBinder.class.getName() + "." + extraBinder.toString(), targetName, extraAnnotatedClass.getKey(), extraAnnotatedClass.getKey())
+                        .endControlFlow();
+            }
         }
     }
 
