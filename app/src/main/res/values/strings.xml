@@ -18,5 +18,10 @@
     <string name="hint_boolean">boolean</string>
     <string name="hint_true_or_false">true or false</string>
     <string name="hint_string">String</string>
+    <string name="test_parcelable_extras">Test Parcelable Extras</string>
+    <string name="title_activity_test_parcelable">TestParcelableActivity</string>
+    <string name="person">Person</string>
+    <string name="lbl_name">Name:</string>
+    <string name="lbl_age">Age:</string>
 
 </resources>

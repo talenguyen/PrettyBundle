@@ -65,7 +65,7 @@ public class PrettyBundleProcessor extends AbstractProcessor {
 
             final VariableElement annotatedVariableElement = (VariableElement) annotatedElement;
 
-            final ExtraAnnotatedClass extraAnnotatedClass = new ExtraAnnotatedClass(annotatedVariableElement);
+            final ExtraAnnotatedClass extraAnnotatedClass = new ExtraAnnotatedClass(annotatedVariableElement, elementUtils, typeUtils);
 
             if (!isValidClass(extraAnnotatedClass)) {
                 return true; // Error message printed, exit processing

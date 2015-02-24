@@ -76,6 +76,7 @@ public class ActivityInjectorClassBuilder {
         }
         methodBuilder.addStatement("final $T extras = target.getIntent().getExtras()", Bundle.class);
         for (ExtraAnnotatedClass extraAnnotatedClass : extraAnnotatedClasses) {
+
             final ExtraBinder extraBinder = ExtraBinderProvider.get(extraAnnotatedClass.getDataTypeQualifiedClassName());
             methodBuilder
                     .beginControlFlow("if(extras.containsKey($S))", extraAnnotatedClass.getKey())

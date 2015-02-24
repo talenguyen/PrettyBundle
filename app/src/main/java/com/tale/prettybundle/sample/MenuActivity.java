@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.tale.prettybundle.Activities;
+import com.tale.prettybundle.sample.data.Person;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -24,5 +27,9 @@ public class MenuActivity extends Activity {
 
     @OnClick(R.id.btTestPrimaryTypeExtras) public void testPrimaryTypeExtras() {
         startActivity(new Intent(this, TestPrimaryTypeSetterActivity.class));
+    }
+
+    @OnClick(R.id.btTestParcelableExtras) public void testTestParcelableExtras() {
+        startActivity(Activities.createTestParcelableActivityIntent(this, new Person("Giang", 26)));
     }
 }

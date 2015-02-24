@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.tale.prettybundle.sample"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.tale.prettybundle.sample"
     >
 
     <application
@@ -26,6 +25,11 @@
         <activity android:name=".TestStringExtra2Activity"/>
         <activity android:name=".TestPrimaryTypeSetterActivity"/>
         <activity android:name=".TestPrimaryTypeDisplayActivity"/>
+        <activity
+            android:name=".TestParcelableActivity"
+            android:label="@string/title_activity_test_parcelable"
+            >
+        </activity>
     </application>
 
 </manifest>

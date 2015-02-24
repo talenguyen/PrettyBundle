@@ -1,6 +1,7 @@
 package com.tale.prettybundle;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 
 /**
  * Created by giang on 2/24/15.
@@ -52,6 +53,15 @@ public enum ExtraBinder {
 
         @Override public void set(Bundle bundle, String key, Object value) {
             bundle.putDouble(key, (Double) value);
+        }
+    },
+    PARCELABLE {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getParcelable(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putParcelable(key, (Parcelable) value);
         }
     },
     BOOLEAN {
