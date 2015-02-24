@@ -130,6 +130,9 @@ public class ActivitiesClassBuilder {
                     || extraBinder == ExtraBinder.FLOAT
                     || extraBinder == ExtraBinder.DOUBLE
                     || extraBinder == ExtraBinder.BOOLEAN
+                    || extraBinder == ExtraBinder.BYTE
+                    || extraBinder == ExtraBinder.SHORT
+                    || extraBinder == ExtraBinder.CHAR
                     ) {
                 methodSpecBuilder.addStatement("$L.set($L, $S, $L)", ExtraBinder.class.getName() + "." + extraBinder.toString(), targetName, extraAnnotatedClass.getKey(), extraAnnotatedClass.getKey());
             } else {

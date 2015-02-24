@@ -17,6 +17,12 @@ public class ExtraBinderProvider {
             return ExtraBinder.DOUBLE;
         } else if ("boolean".equals(dataType) || "java.lang.Boolean".equals(dataType)) {
             return ExtraBinder.BOOLEAN;
+        } else if ("byte".equals(dataType) || "java.lang.Byte".equals(dataType)) {
+            return ExtraBinder.BYTE;
+        } else if ("char".equals(dataType) || "java.lang.Character".equals(dataType)) {
+            return ExtraBinder.CHAR;
+        } else if ("short".equals(dataType) || "java.lang.Short".equals(dataType)) {
+            return ExtraBinder.SHORT;
         } else if ("android.os.Parcelable".equals(dataType)) {
             return ExtraBinder.PARCELABLE;
         }
