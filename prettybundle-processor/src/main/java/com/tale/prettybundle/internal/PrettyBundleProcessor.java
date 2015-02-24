@@ -18,6 +18,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.Elements;
@@ -97,7 +98,25 @@ public class PrettyBundleProcessor extends AbstractProcessor {
     }
 
     private boolean isValidClass(ExtraAnnotatedClass extraAnnotatedClass) {
+        // Verify modifiers is not private or protected
+        if (extraAnnotatedClass.getAnnotatedVariableElement().getModifiers().contains(Modifier.PRIVATE)) {
+            error(extraAnnotatedClass.getAnnotatedVariableElement(), "The data type must not declared by private modifier");
+        } else if (extraAnnotatedClass.getAnnotatedVariableElement().getModifiers().contains(Modifier.PROTECTED)) {
+            error(extraAnnotatedClass.getAnnotatedVariableElement(), "The data type must not declared by protected modifier");
+        }
+        // Check if data type is supported or not.
+        if (!isSupported(extraAnnotatedClass.getDataTypeQualifiedClassName())) {
+            error(extraAnnotatedClass.getAnnotatedVariableElement(), "Data type: %s is not supported", extraAnnotatedClass.getDataTypeQualifiedClassName());
+            return false;
+        }
         return true;
+    }
+
+    private boolean isSupported(String dataTypeQualifiedClassName) {
+        if ("java.lang.String".equals(dataTypeQualifiedClassName)) {
+            return true;
+        }
+        return false;
     }
 
     private void error(Element element, String message, String... args) {
