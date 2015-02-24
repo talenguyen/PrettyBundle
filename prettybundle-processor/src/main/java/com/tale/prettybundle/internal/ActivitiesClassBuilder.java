@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.squareup.javapoet.JavaPoet;
+import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
@@ -70,8 +70,7 @@ public class ActivitiesClassBuilder {
             activitiesClassBuilder.addMethod(method);
         }
 
-        JavaPoet javaPoet = new JavaPoet();
-        javaPoet.add(packageName, activitiesClassBuilder.build()).writeTo(filer);
+        JavaFile.builder(packageName, activitiesClassBuilder.build()).build().writeTo(filer);
     }
 
     private List<MethodSpec> getMethods(Elements elementUtils, Types typeUtils) {

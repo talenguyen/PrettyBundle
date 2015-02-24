@@ -8,11 +8,14 @@ import java.util.List;
  */
 public class ActivityExtrasGrouped {
 
+    private final String packageName;
     private final String activityQualifiedClassName;
     private List<ExtraAnnotatedClass> extraAnnotatedClasses = new ArrayList<ExtraAnnotatedClass>();
 
     public ActivityExtrasGrouped(String activityQualifiedClassName) {
         this.activityQualifiedClassName = activityQualifiedClassName;
+        final int lastIndexOfDot = activityQualifiedClassName.lastIndexOf(".");
+        packageName = activityQualifiedClassName.substring(0, lastIndexOfDot);
     }
 
     public void add(ExtraAnnotatedClass extraAnnotatedClass) {
@@ -21,6 +24,10 @@ public class ActivityExtrasGrouped {
 
     public String getActivityQualifiedClassName() {
         return activityQualifiedClassName;
+    }
+
+    public String getPackageName() {
+        return packageName;
     }
 
     public List<ExtraAnnotatedClass> getExtraAnnotatedClasses() {

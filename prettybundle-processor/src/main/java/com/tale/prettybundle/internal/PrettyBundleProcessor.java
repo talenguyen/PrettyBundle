@@ -2,6 +2,8 @@ package com.tale.prettybundle.internal;
 
 import com.google.auto.service.AutoService;
 import com.tale.prettybundle.Extra;
+import com.tale.prettybundle.ExtraGetter;
+import com.tale.prettybundle.ExtraGetterProvider;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -83,8 +85,19 @@ public class PrettyBundleProcessor extends AbstractProcessor {
         }
 
         try {
+            // Generate Activities util class.
             activitiesClassBuilder.generateCode(elementUtils, typeUtils, filer);
+
+            // Generate Activity$$Injector classes.
+            for (ActivityExtrasGrouped activityExtrasGrouped : extraGroupedClassesMap.values()) {
+                try {
+                    new ActivityInjectorClassBuilder(activityExtrasGrouped).generateCode(elementUtils, filer);
+                } catch (IllegalAccessException e) {
+                    error(null, e.getMessage());
+                }
+            }
             activitiesClassBuilder.clear();
+            extraGroupedClassesMap.clear();
         } catch (IOException e) {
             error(null, e.getMessage());
         }
@@ -113,10 +126,10 @@ public class PrettyBundleProcessor extends AbstractProcessor {
     }
 
     private boolean isSupported(String dataTypeQualifiedClassName) {
-        if ("java.lang.String".equals(dataTypeQualifiedClassName)) {
-            return true;
+        if (ExtraGetterProvider.get(dataTypeQualifiedClassName) == ExtraGetter.NOP) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     private void error(Element element, String message, String... args) {
