@@ -129,9 +129,6 @@ public class ActivitiesClassBuilder {
                     .beginControlFlow("if($S != null)", extraAnnotatedClass.getKey())
                     .addStatement("$L.set($L, $S, $L)", ExtraBinder.class.getName() + "." + extraBinder.toString(), targetName, extraAnnotatedClass.getKey(), extraAnnotatedClass.getKey())
                     .endControlFlow();
-//            if (extraAnnotatedClass.getDataTypeQualifiedClassName().equals("java.lang.String")) {
-//                methodSpecBuilder.addStatement(targetName + ".putString($S, $L)", extraAnnotatedClass.getKey(), extraAnnotatedClass.getKey());
-//            }
         }
     }
 

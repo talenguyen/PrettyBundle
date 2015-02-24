@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="16dp"
+    >
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        >
+
+        <TextView
+            android:text="int:"
+            />
+
+        <TextView
+            android:id="@+id/tvInt"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_int"
+            android:inputType="number"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="long:"
+            />
+
+        <TextView
+            android:id="@+id/tvLong"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_long"
+            android:inputType="number"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="float:"
+            />
+
+        <TextView
+            android:id="@+id/tvFloat"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_float"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="double:"
+            />
+
+        <TextView
+            android:id="@+id/tvDouble"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_double"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="boolean:"
+            />
+
+        <TextView
+            android:id="@+id/tvBoolean"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_true_or_false"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="String:"
+            />
+
+        <TextView
+            android:id="@+id/tvString"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_string"
+            android:inputType="number"
+            android:padding="8dp"
+            />
+
+    </GridLayout>
+
+
+</ScrollView>

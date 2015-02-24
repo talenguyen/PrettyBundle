@@ -9,9 +9,9 @@ import android.test.ActivityInstrumentationTestCase2;
 /**
  * Created by tale on 2/18/15.
  */
-public class InjectActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class InjectStringExtrasTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
-    public InjectActivityTest() {
+    public InjectStringExtrasTest() {
         super(MainActivity.class);
     }
 
