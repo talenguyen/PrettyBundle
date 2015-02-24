@@ -20,7 +20,7 @@ public class InjectActivityTest extends ActivityInstrumentationTestCase2<MainAct
         getActivity();
     }
 
-    public void testStartActivityTestStringExtra2() throws Exception {
+    public void testStartActivityTestStringExtra2WithExtras() throws Exception {
         final String extra1 = "Giang";
         final String extra2 = "Nguyen";
         Espresso.onView(ViewMatchers.withHint(R.string.string_extra_1)).perform(ViewActions.typeText(extra1));
@@ -29,6 +29,16 @@ public class InjectActivityTest extends ActivityInstrumentationTestCase2<MainAct
         Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ViewActions.click());
 
         Espresso.onView(ViewMatchers.withText(extra1)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withText(extra2)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    public void testStartActivityTestStringExtra2UsingDefaultValue() throws Exception {
+        final String extra2 = "Nguyen";
+        Espresso.onView(ViewMatchers.withHint(R.string.string_extra_2)).perform(ViewActions.typeText(extra2));
+
+        Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withText("Default")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withText(extra2)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 }

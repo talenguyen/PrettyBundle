@@ -6,7 +6,10 @@ import android.os.Bundle;
 
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
+import com.tale.prettybundle.ExtraBinder;
+import com.tale.prettybundle.ExtraBinderProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -121,9 +124,14 @@ public class ActivitiesClassBuilder {
             return;
         }
         for (ExtraAnnotatedClass extraAnnotatedClass : extraAnnotatedClasses) {
-            if (extraAnnotatedClass.getDataTypeQualifiedClassName().equals("java.lang.String")) {
-                methodSpecBuilder.addStatement(targetName + ".putString($S, $L)", extraAnnotatedClass.getKey(), extraAnnotatedClass.getKey());
-            }
+            final ExtraBinder extraBinder = ExtraBinderProvider.get(extraAnnotatedClass.getDataTypeQualifiedClassName());
+            methodSpecBuilder
+                    .beginControlFlow("if($S != null)", extraAnnotatedClass.getKey())
+                    .addStatement("$L.set($L, $S, $L)", ExtraBinder.class.getName() + "." + extraBinder.toString(), targetName, extraAnnotatedClass.getKey(), extraAnnotatedClass.getKey())
+                    .endControlFlow();
+//            if (extraAnnotatedClass.getDataTypeQualifiedClassName().equals("java.lang.String")) {
+//                methodSpecBuilder.addStatement(targetName + ".putString($S, $L)", extraAnnotatedClass.getKey(), extraAnnotatedClass.getKey());
+//            }
         }
     }
 
@@ -133,11 +141,7 @@ public class ActivitiesClassBuilder {
             return;
         }
         for (ExtraAnnotatedClass extraAnnotatedClass : extraAnnotatedClasses) {
-            try {
-                methodSpecBuilder.addParameter(Class.forName(extraAnnotatedClass.getDataTypeQualifiedClassName()), extraAnnotatedClass.getKey());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            methodSpecBuilder.addParameter(TypeName.get(extraAnnotatedClass.getDataType()), extraAnnotatedClass.getKey());
         }
     }
 

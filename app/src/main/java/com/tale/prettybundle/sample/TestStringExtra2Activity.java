@@ -16,7 +16,7 @@ import butterknife.InjectView;
  */
 public class TestStringExtra2Activity extends ActionBarActivity {
 
-    @Extra String stringExtra1;
+    @Extra String stringExtra1 = "Default";
     @Extra String stringExtra2;
     @InjectView(R.id.tvStringExtra1) TextView tvStringExtra1;
     @InjectView(R.id.tvStringExtra2) TextView tvStringExtra2;
