@@ -1,38 +1,34 @@
 package com.tale.prettybundle.sample;
 
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.test.ActivityInstrumentationTestCase2;
-
-import com.robotium.solo.Solo;
 
 /**
  * Created by tale on 2/18/15.
  */
 public class InjectActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
-    private Solo solo;
-
     public InjectActivityTest() {
         super(MainActivity.class);
     }
 
     @Override public void setUp() throws Exception {
-        solo = new Solo(getInstrumentation(), getActivity());
         super.setUp();
-    }
-
-    @Override protected void tearDown() throws Exception {
-        solo.finishOpenedActivities();
-        super.tearDown();
+        getActivity();
     }
 
     public void testStartActivityTestStringExtra2() throws Exception {
         final String extra1 = "Giang";
         final String extra2 = "Nguyen";
-        solo.enterText(0, extra1);
-        solo.enterText(1, extra2);
+        Espresso.onView(ViewMatchers.withHint(R.string.string_extra_1)).perform(ViewActions.typeText(extra1));
+        Espresso.onView(ViewMatchers.withHint(R.string.string_extra_2)).perform(ViewActions.typeText(extra2));
 
-        solo.clickOnButton(getActivity().getString(R.string.submit));
+        Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ViewActions.click());
 
-        assertTrue(solo.searchText(extra1) && solo.searchText(extra2));
+        Espresso.onView(ViewMatchers.withText(extra1)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withText(extra2)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 }
