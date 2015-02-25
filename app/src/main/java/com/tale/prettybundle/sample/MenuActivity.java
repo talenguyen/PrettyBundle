@@ -32,4 +32,14 @@ public class MenuActivity extends Activity {
     @OnClick(R.id.btTestParcelableExtras) public void testTestParcelableExtras() {
         startActivity(Activities.createTestParcelableActivityIntent(this, new Person("Giang", 26)));
     }
+
+    @OnClick(R.id.btTestArrayExtras) public void testTestArrayExtras() {
+        final int[] ints = {1, 2, 3};
+        final long[] longs = {4, 5, 6};
+        final float[] floats = {4.1f, 5.1f, 6.1f};
+        final double[] doubles = {7.2d, 8.2d, 9.2d};
+        final boolean[] booleans = {true, false, false, true};
+        final String[] strings = {"One", "Two", "Three"};
+        startActivity(Activities.createTestArrayExtrasActivityIntent(this, ints, longs, floats, doubles, booleans, strings));
+    }
 }

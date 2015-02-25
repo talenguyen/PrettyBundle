@@ -26,4 +26,11 @@
         android:layout_height="wrap_content"
         android:text="@string/test_parcelable_extras"
         />
+
+    <Button
+        android:id="@+id/btTestArrayExtras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/test_array_extras"
+        />
 </LinearLayout>
