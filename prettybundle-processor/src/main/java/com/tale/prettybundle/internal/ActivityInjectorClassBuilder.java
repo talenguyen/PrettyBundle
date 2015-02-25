@@ -75,6 +75,9 @@ public class ActivityInjectorClassBuilder {
             return;
         }
         methodBuilder.addStatement("final $T extras = target.getIntent().getExtras()", Bundle.class);
+        methodBuilder.beginControlFlow("if(extras == null)")
+                .addStatement("return")
+                .endControlFlow();
         for (ExtraAnnotatedClass extraAnnotatedClass : extraAnnotatedClasses) {
 
             final ExtraBinder extraBinder = ExtraBinderProvider.get(extraAnnotatedClass.getDataTypeQualifiedClassName());
