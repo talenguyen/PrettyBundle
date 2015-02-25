@@ -25,11 +25,8 @@
         <activity android:name=".TestStringExtra2Activity"/>
         <activity android:name=".TestPrimaryTypeSetterActivity"/>
         <activity android:name=".TestPrimaryTypeDisplayActivity"/>
-        <activity
-            android:name=".TestParcelableActivity"
-            android:label="@string/title_activity_test_parcelable"
-            >
-        </activity>
+        <activity android:name=".TestParcelableActivity"/>
+        <activity android:name=".TestArrayExtrasActivity"/>
     </application>
 
 </manifest>

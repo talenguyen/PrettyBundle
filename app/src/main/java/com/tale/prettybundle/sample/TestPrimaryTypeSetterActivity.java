@@ -23,10 +23,12 @@ public class TestPrimaryTypeSetterActivity extends Activity {
     @InjectView(R.id.etDouble) EditText etDouble;
     @InjectView(R.id.cbBoolean) CheckBox cbBoolean;
     @InjectView(R.id.etString) EditText etString;
+    @InjectView(R.id.etCharSequence) EditText etCharSequence;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_primary_type_setter);
+        ButterKnife.inject(this);
         ButterKnife.inject(this);
     }
 
@@ -67,9 +69,16 @@ public class TestPrimaryTypeSetterActivity extends Activity {
             stringVal = etString.getText().toString();
         }
 
+        CharSequence charSequenceVal;
+        if (TextUtils.isEmpty(etCharSequence.getText())) {
+            charSequenceVal = null;
+        } else {
+            charSequenceVal = etCharSequence.getText();
+        }
+
         boolean booleanVal = cbBoolean.isChecked();
 
-        startActivity(Activities.createTestPrimaryTypeDisplayActivityIntent(this, intVal, longVal, floatVal, doubleVal, booleanVal, stringVal));
+        startActivity(Activities.createTestPrimaryTypeDisplayActivityIntent(this, intVal, longVal, floatVal, doubleVal, booleanVal, stringVal, charSequenceVal));
 
     }
 }

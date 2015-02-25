@@ -25,15 +25,17 @@ public class InjectPrimaryTypeExtrasTest extends ActivityInstrumentationTestCase
     public void testStartPrimaryTypeDisplayWithExtras() throws Exception {
         final String integerExtra = "1";
         Espresso.onView(ViewMatchers.withHint(R.string.hint_int)).perform(ViewActions.typeText(integerExtra));
-        final String longExtra = "10";
+        final String longExtra = "2";
         Espresso.onView(ViewMatchers.withHint(R.string.hint_long)).perform(ViewActions.typeText(longExtra));
-        final String floatExtra = "100.1";
+        final String floatExtra = "3.4";
         Espresso.onView(ViewMatchers.withHint(R.string.hint_float)).perform(ViewActions.typeText(floatExtra));
-        final String doubleExtra = "1000.2";
+        final String doubleExtra = "5.6";
         Espresso.onView(ViewMatchers.withHint(R.string.hint_double)).perform(ViewActions.typeText(doubleExtra));
         Espresso.onView(ViewMatchers.withHint(R.string.hint_true_or_false)).perform(ViewActions.click());
         final String stringExtra = "String value";
         Espresso.onView(ViewMatchers.withHint(R.string.hint_string)).perform(ViewActions.typeText(stringExtra));
+        final String charSequenceExtra = "CharSequence value";
+        Espresso.onView(ViewMatchers.withHint(R.string.hint_char_sequence)).perform(ViewActions.typeText(charSequenceExtra));
 
         Espresso.closeSoftKeyboard();
 
@@ -45,6 +47,7 @@ public class InjectPrimaryTypeExtrasTest extends ActivityInstrumentationTestCase
         Espresso.onView(ViewMatchers.withText(doubleExtra)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withText("true")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withText(stringExtra)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withText(charSequenceExtra)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
 }

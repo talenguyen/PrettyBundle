@@ -82,6 +82,17 @@
             android:hint="@string/hint_string"
             />
 
+        <TextView
+            android:text="CharSequence:"
+            />
+
+        <EditText
+            android:id="@+id/etCharSequence"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_char_sequence"
+            />
+
         <Button
             android:id="@+id/btSubmit"
             android:text="@string/submit"

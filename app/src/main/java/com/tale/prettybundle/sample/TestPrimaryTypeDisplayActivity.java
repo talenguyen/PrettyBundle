@@ -21,6 +21,7 @@ public class TestPrimaryTypeDisplayActivity extends Activity {
     @Extra double doubleVal = 0;
     @Extra boolean booleanVal = false;
     @Extra String stringVal = "Default";
+    @Extra CharSequence charSequenceVal = "Default";
 
     @InjectView(R.id.tvInt) TextView tvInt;
     @InjectView(R.id.tvLong) TextView tvLong;
@@ -28,10 +29,12 @@ public class TestPrimaryTypeDisplayActivity extends Activity {
     @InjectView(R.id.tvDouble) TextView tvDouble;
     @InjectView(R.id.tvBoolean) TextView tvBoolean;
     @InjectView(R.id.tvString) TextView tvString;
+    @InjectView(R.id.tvCharSequence) TextView tvCharSequence;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_primary_type_display);
+        ButterKnife.inject(this);
         ButterKnife.inject(this);
 
         ButterKnife.inject(this);
@@ -43,5 +46,6 @@ public class TestPrimaryTypeDisplayActivity extends Activity {
         tvDouble.setText(String.valueOf(doubleVal));
         tvBoolean.setText(String.valueOf(booleanVal));
         tvString.setText(stringVal);
+        tvCharSequence.setText(charSequenceVal);
     }
 }

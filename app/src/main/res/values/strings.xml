@@ -23,5 +23,7 @@
     <string name="person">Person</string>
     <string name="lbl_name">Name:</string>
     <string name="lbl_age">Age:</string>
+    <string name="boolean_array">Boolean array</string>
+    <string name="hint_char_sequence">CharSequence</string>
 
 </resources>

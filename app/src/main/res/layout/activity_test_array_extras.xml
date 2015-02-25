@@ -13,90 +13,68 @@
         >
 
         <TextView
-            android:text="int:"
+            android:text="int array:"
             />
 
         <TextView
-            android:id="@+id/tvInt"
+            android:id="@+id/tvInts"
             android:layout_gravity="fill_horizontal"
             android:layout_marginLeft="16dp"
-            android:hint="@string/hint_int"
-            android:inputType="number"
             android:padding="8dp"
             />
 
         <TextView
-            android:text="long:"
+            android:text="long array:"
             />
 
         <TextView
-            android:id="@+id/tvLong"
+            android:id="@+id/tvLongs"
             android:layout_gravity="fill_horizontal"
             android:layout_marginLeft="16dp"
-            android:hint="@string/hint_long"
-            android:inputType="number"
             android:padding="8dp"
             />
 
         <TextView
-            android:text="float:"
+            android:text="float array:"
             />
 
         <TextView
-            android:id="@+id/tvFloat"
+            android:id="@+id/tvFloats"
             android:layout_gravity="fill_horizontal"
             android:layout_marginLeft="16dp"
-            android:hint="@string/hint_float"
-            android:inputType="numberDecimal"
             android:padding="8dp"
             />
 
         <TextView
-            android:text="double:"
+            android:text="double array:"
             />
 
         <TextView
-            android:id="@+id/tvDouble"
+            android:id="@+id/tvDoubles"
             android:layout_gravity="fill_horizontal"
             android:layout_marginLeft="16dp"
-            android:hint="@string/hint_double"
-            android:inputType="numberDecimal"
             android:padding="8dp"
             />
 
         <TextView
-            android:text="boolean:"
+            android:text="boolean array:"
             />
 
         <TextView
-            android:id="@+id/tvBoolean"
+            android:id="@+id/tvBooleans"
             android:layout_gravity="fill_horizontal"
             android:layout_marginLeft="16dp"
-            android:hint="@string/hint_true_or_false"
             android:padding="8dp"
             />
 
         <TextView
-            android:text="String:"
+            android:text="String array:"
             />
 
         <TextView
-            android:id="@+id/tvString"
+            android:id="@+id/tvStrings"
             android:layout_gravity="fill_horizontal"
             android:layout_marginLeft="16dp"
-            android:hint="@string/hint_string"
-            android:padding="8dp"
-            />
-
-        <TextView
-            android:text="CharSequence:"
-            />
-
-        <TextView
-            android:id="@+id/tvCharSequence"
-            android:layout_gravity="fill_horizontal"
-            android:layout_marginLeft="16dp"
-            android:hint="@string/hint_char_sequence"
             android:padding="8dp"
             />
 

@@ -14,9 +14,16 @@ public enum ExtraBinder {
         }
 
         @Override public void set(Bundle bundle, String key, Object value) {
-            if (value instanceof String) {
-                bundle.putString(key, (String) value);
-            }
+            bundle.putString(key, (String) value);
+        }
+    },
+    CHAR_SEQUENCE {
+        @Override public CharSequence get(Bundle bundle, String key) {
+            return bundle.getCharSequence(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putCharSequence(key, (CharSequence) value);
         }
     },
     INTEGER {
@@ -55,15 +62,6 @@ public enum ExtraBinder {
             bundle.putDouble(key, (Double) value);
         }
     },
-    PARCELABLE {
-        @Override public <T> T get(Bundle bundle, String key) {
-            return (T) bundle.getParcelable(key);
-        }
-
-        @Override public void set(Bundle bundle, String key, Object value) {
-            bundle.putParcelable(key, (Parcelable) value);
-        }
-    },
     BOOLEAN {
         @Override public Boolean get(Bundle bundle, String key) {
             return bundle.getBoolean(key);
@@ -98,6 +96,105 @@ public enum ExtraBinder {
 
         @Override public void set(Bundle bundle, String key, Object value) {
             bundle.putShort(key, (Short) value);
+        }
+    },
+    PARCELABLE {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getParcelable(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putParcelable(key, (Parcelable) value);
+        }
+    },
+    STRING_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getStringArray(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putStringArray(key, (String[]) value);
+        }
+    },
+    CHAR_SEQUENCE_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getCharSequenceArray(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putCharSequenceArray(key, (CharSequence[]) value);
+        }
+    },
+    INTEGER_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getIntArray(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putIntArray(key, (int[]) value);
+        }
+    },
+    LONG_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getLongArray(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putLongArray(key, (long[]) value);
+        }
+    },
+    FLOAT_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getFloatArray(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putFloatArray(key, (float[]) value);
+        }
+    },
+    DOUBLE_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getDoubleArray(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putDoubleArray(key, (double[]) value);
+        }
+    },
+    BOOLEAN_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getBooleanArray(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putBooleanArray(key, (boolean[]) value);
+        }
+    },
+    BYTE_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getByteArray(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putByteArray(key, (byte[]) value);
+        }
+    },
+    CHAR_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getCharArray(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putCharArray(key, (char[]) value);
+        }
+    },
+    SHORT_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            return (T) bundle.getShortArray(key);
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putShortArray(key, (short[]) value);
         }
     },
     NOP {
