@@ -11,13 +11,15 @@ import android.test.ActivityInstrumentationTestCase2;
  */
 public class InjectArrayExtrasTest extends ActivityInstrumentationTestCase2<MenuActivity> {
 
+    private MenuActivity activity;
+
     public InjectArrayExtrasTest() {
         super(MenuActivity.class);
     }
 
     @Override public void setUp() throws Exception {
         super.setUp();
-        getActivity();
+        activity = getActivity();
     }
 
     public void testArrayExtrasDisplay() throws Exception {
@@ -37,6 +39,8 @@ public class InjectArrayExtrasTest extends ActivityInstrumentationTestCase2<Menu
         Espresso.onView(ViewMatchers.withText("{true,false,false,true}")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         // string arrays
         Espresso.onView(ViewMatchers.withText("{One,Two,Three}")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        // people
+        Espresso.onView(ViewMatchers.withText("{{name='p1',age=18},{name='p2',age=19}}")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
     }
 }

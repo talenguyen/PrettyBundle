@@ -3,6 +3,9 @@ package com.tale.prettybundle;
 import android.os.Bundle;
 import android.os.Parcelable;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * Created by giang on 2/24/15.
  */
@@ -197,6 +200,28 @@ public enum ExtraBinder {
             bundle.putShortArray(key, (short[]) value);
         }
     },
+    PARCELABLE_ARRAY {
+        @Override public <T> T get(Bundle bundle, String key) {
+            final Class<?> dataTypeClass = getDataTypeClass();
+            final Parcelable[] parcelables = bundle.getParcelableArray(key);
+
+            final String dataTypeClassName = dataTypeClass.getCanonicalName();
+
+            if (dataTypeClassName.equals("android.os.Parcelable[]")) {
+                // Check if class of data type is Parcelable we can cast the array to return
+                return (T) parcelables;
+            }
+            if (parcelables != null && parcelables.length > 0) {
+                // We must convert data type from Parcelable array to T array base on dataTypeClass which was registered in code generated.
+                return (T) Arrays.asList(parcelables).toArray((Object[]) Array.newInstance(dataTypeClass, parcelables.length));
+            }
+            return null;
+        }
+
+        @Override public void set(Bundle bundle, String key, Object value) {
+            bundle.putParcelableArray(key, (Parcelable[]) value);
+        }
+    },
     NOP {
         @Override public <T> T get(Bundle bundle, String key) {
             return null;
@@ -205,6 +230,16 @@ public enum ExtraBinder {
         @Override public void set(Bundle bundle, String key, Object value) {
         }
     };
+
+    protected Class<?> dataTypeClass;
+
+    public void setDataTypeClass(Class<?> clazz) {
+        this.dataTypeClass = clazz;
+    }
+
+    public Class<?> getDataTypeClass() {
+        return dataTypeClass;
+    }
 
     public abstract <T> T get(Bundle bundle, String key);
 

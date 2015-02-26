@@ -20,8 +20,6 @@ public class ExtraAnnotatedClass {
     private final String qualifiedClassName;
     private String dataTypeQualifiedClassName;
     private final TypeMirror dataType;
-    private boolean isParcelable;
-    private boolean isParcelableArray;
     private ExtraBinder extraBinder;
 
     public ExtraAnnotatedClass(VariableElement annotatedVariableElement, Elements typeUtils, Types elementUtils) {
@@ -47,8 +45,7 @@ public class ExtraAnnotatedClass {
 
         try {
             // Check if data type is kind of Array.
-            final ArrayType arrayType = elementUtils.getArrayType(dataType);
-            dataTypeQualifiedClassName = arrayType.getComponentType().toString();
+            dataTypeQualifiedClassName = ((ArrayType) dataType).getComponentType().toString();
             final TypeMirror componentTypeMirror = typeUtils.getTypeElement(dataTypeQualifiedClassName).asType();
             if (elementUtils.isSubtype(componentTypeMirror, typeUtils.getTypeElement("android.os.Parcelable").asType())) {
                 extraBinder = ExtraBinderProvider.get("android.os.Parcelable[]");

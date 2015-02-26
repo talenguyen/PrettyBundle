@@ -78,6 +78,18 @@
             android:padding="8dp"
             />
 
+        <TextView
+            android:text="People:"
+            />
+
+        <TextView
+            android:id="@+id/tvPeople"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:padding="8dp"
+            android:textSize="10sp"
+            />
+
     </GridLayout>
 
 

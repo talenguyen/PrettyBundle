@@ -40,6 +40,7 @@ public class MenuActivity extends Activity {
         final double[] doubles = {7.2d, 8.2d, 9.2d};
         final boolean[] booleans = {true, false, false, true};
         final String[] strings = {"One", "Two", "Three"};
-        startActivity(Activities.createTestArrayExtrasActivityIntent(this, ints, longs, floats, doubles, booleans, strings));
+        final Person[] persons = {new Person("p1", 18), new Person("p2", 19)};
+        startActivity(Activities.createTestArrayExtrasActivityIntent(this, ints, longs, floats, doubles, booleans, strings, persons));
     }
 }

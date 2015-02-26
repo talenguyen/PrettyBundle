@@ -2,6 +2,7 @@ package com.tale.prettybundle.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.TextView;
 
 import com.tale.prettybundle.Extra;
@@ -21,6 +22,7 @@ public class TestArrayExtrasActivity extends Activity {
     @Extra double[] doubles;
     @Extra boolean[] booleans;
     @Extra String[] strings;
+    @Extra Parcelable[] people;
 
     @InjectView(R.id.tvInts) TextView tvInts;
     @InjectView(R.id.tvLongs) TextView tvLongs;
@@ -28,6 +30,7 @@ public class TestArrayExtrasActivity extends Activity {
     @InjectView(R.id.tvDoubles) TextView tvDoubles;
     @InjectView(R.id.tvBooleans) TextView tvBooleans;
     @InjectView(R.id.tvStrings) TextView tvStrings;
+    @InjectView(R.id.tvPeople) TextView tvPeople;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +115,19 @@ public class TestArrayExtrasActivity extends Activity {
             sb.append("}");
         }
         tvStrings.setText(sb.toString());
+        sb.setLength(0);
+
+        if (people != null && people.length > 0) {
+            sb.append("{");
+            for (int i = 0; i < people.length; i++) {
+                sb.append(people[i].toString());
+                if (i < people.length - 1) {
+                    sb.append(",");
+                }
+            }
+            sb.append("}");
+        }
+        tvPeople.setText(sb.toString());
         sb.setLength(0);
     }
 }

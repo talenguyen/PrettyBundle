@@ -47,6 +47,8 @@ public class ExtraBinderProvider {
             return ExtraBinder.STRING_ARRAY;
         } else if ("java.lang.CharSequence[]".equals(dataType)) {
             return ExtraBinder.CHAR_SEQUENCE_ARRAY;
+        } else if ("android.os.Parcelable[]".equals(dataType)) {
+            return ExtraBinder.PARCELABLE_ARRAY;
         }
         return ExtraBinder.NOP;
     }
