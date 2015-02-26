@@ -9,7 +9,6 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.tale.prettybundle.ExtraBinder;
-import com.tale.prettybundle.ExtraBinderProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -124,7 +123,7 @@ public class ActivitiesClassBuilder {
             return;
         }
         for (ExtraAnnotatedClass extraAnnotatedClass : extraAnnotatedClasses) {
-            final ExtraBinder extraBinder = ExtraBinderProvider.get(extraAnnotatedClass.getDataTypeQualifiedClassName());
+            final ExtraBinder extraBinder = extraAnnotatedClass.getExtraBinder();
             if (extraBinder == ExtraBinder.INTEGER
                     || extraBinder == ExtraBinder.LONG
                     || extraBinder == ExtraBinder.FLOAT

@@ -1,7 +1,11 @@
 package com.tale.prettybundle.internal;
 
+import com.tale.prettybundle.ExtraBinder;
+import com.tale.prettybundle.ExtraBinderProvider;
+
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -14,9 +18,11 @@ public class ExtraAnnotatedClass {
     private final VariableElement annotatedVariableElement;
     private final String key;
     private final String qualifiedClassName;
-    private final String dataTypeQualifiedClassName;
+    private String dataTypeQualifiedClassName;
     private final TypeMirror dataType;
     private boolean isParcelable;
+    private boolean isParcelableArray;
+    private ExtraBinder extraBinder;
 
     public ExtraAnnotatedClass(VariableElement annotatedVariableElement, Elements typeUtils, Types elementUtils) {
         this.annotatedVariableElement = annotatedVariableElement;
@@ -27,8 +33,32 @@ public class ExtraAnnotatedClass {
         // Get the full Qualified of DataType.
         dataType = annotatedVariableElement.asType();
         dataTypeQualifiedClassName = dataType.toString();
-        final TypeMirror parcelableTypeMirror = typeUtils.getTypeElement("android.os.Parcelable").asType();
-        isParcelable = elementUtils.isSubtype(dataType, parcelableTypeMirror);
+        extraBinder = ExtraBinderProvider.get(dataTypeQualifiedClassName);
+        if (extraBinder != ExtraBinder.NOP) {
+            return;
+        }
+        // Check if data type is kind of Parcelable.
+        if (elementUtils.isSubtype(dataType, typeUtils.getTypeElement("android.os.Parcelable").asType())) {
+            extraBinder = ExtraBinderProvider.get("android.os.Parcelable");
+            if (extraBinder != ExtraBinder.NOP) {
+                return;
+            }
+        }
+
+        try {
+            // Check if data type is kind of Array.
+            final ArrayType arrayType = elementUtils.getArrayType(dataType);
+            dataTypeQualifiedClassName = arrayType.getComponentType().toString();
+            final TypeMirror componentTypeMirror = typeUtils.getTypeElement(dataTypeQualifiedClassName).asType();
+            if (elementUtils.isSubtype(componentTypeMirror, typeUtils.getTypeElement("android.os.Parcelable").asType())) {
+                extraBinder = ExtraBinderProvider.get("android.os.Parcelable[]");
+                if (extraBinder != ExtraBinder.NOP) {
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public VariableElement getAnnotatedVariableElement() {
@@ -39,10 +69,11 @@ public class ExtraAnnotatedClass {
         return key;
     }
 
+    public ExtraBinder getExtraBinder() {
+        return extraBinder;
+    }
+
     public String getDataTypeQualifiedClassName() {
-        if (isParcelable) {
-            return "android.os.Parcelable";
-        }
         return dataTypeQualifiedClassName;
     }
 

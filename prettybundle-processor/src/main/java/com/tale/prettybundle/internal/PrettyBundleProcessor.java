@@ -3,7 +3,6 @@ package com.tale.prettybundle.internal;
 import com.google.auto.service.AutoService;
 import com.tale.prettybundle.Extra;
 import com.tale.prettybundle.ExtraBinder;
-import com.tale.prettybundle.ExtraBinderProvider;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -118,15 +117,15 @@ public class PrettyBundleProcessor extends AbstractProcessor {
             error(extraAnnotatedClass.getAnnotatedVariableElement(), "The data type must not declared by protected modifier");
         }
         // Check if data type is supported or not.
-        if (!isSupported(extraAnnotatedClass.getDataTypeQualifiedClassName())) {
+        if (!isSupported(extraAnnotatedClass)) {
             error(extraAnnotatedClass.getAnnotatedVariableElement(), "Data type: %s is not supported", extraAnnotatedClass.getDataTypeQualifiedClassName());
             return false;
         }
         return true;
     }
 
-    private boolean isSupported(String dataTypeQualifiedClassName) {
-        if (ExtraBinderProvider.get(dataTypeQualifiedClassName) == ExtraBinder.NOP) {
+    private boolean isSupported(ExtraAnnotatedClass extraAnnotatedClass) {
+        if (extraAnnotatedClass.getExtraBinder() == ExtraBinder.NOP) {
             return false;
         }
         return true;

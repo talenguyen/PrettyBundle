@@ -9,7 +9,6 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 import com.tale.prettybundle.ExtraBinder;
-import com.tale.prettybundle.ExtraBinderProvider;
 import com.tale.prettybundle.Injector;
 import com.tale.prettybundle.PrettyBundle;
 
@@ -80,7 +79,7 @@ public class ActivityInjectorClassBuilder {
                 .endControlFlow();
         for (ExtraAnnotatedClass extraAnnotatedClass : extraAnnotatedClasses) {
 
-            final ExtraBinder extraBinder = ExtraBinderProvider.get(extraAnnotatedClass.getDataTypeQualifiedClassName());
+            final ExtraBinder extraBinder = extraAnnotatedClass.getExtraBinder();
             methodBuilder
                     .beginControlFlow("if(extras.containsKey($S))", extraAnnotatedClass.getKey())
                     .addStatement("$L.$L = $L.get(extras, $S)", targetName, extraAnnotatedClass.getKey(), ExtraBinder.class.getName() + "." + extraBinder.toString(), extraAnnotatedClass.getKey())
