@@ -38,22 +38,22 @@ public class ActivitiesClassBuilder {
 
     public void add(ExtraClassesGrouped extraClassesGrouped) {
         if (extraClassesGrouped == null
-                || extraClassesGrouped.getActivityQualifiedClassName() == null
-                || extraClassesGrouped.getActivityQualifiedClassName().trim().equals("")) {
+                || extraClassesGrouped.getExtraAnnotatedClassName() == null
+                || extraClassesGrouped.getExtraAnnotatedClassName().trim().equals("")) {
             return;
         }
 
         // We replace the existed with the new or just add.
-        activityExtrasGroupeds.put(extraClassesGrouped.getActivityQualifiedClassName(), extraClassesGrouped);
+        activityExtrasGroupeds.put(extraClassesGrouped.getExtraAnnotatedClassName(), extraClassesGrouped);
     }
 
     public boolean contains(ExtraClassesGrouped extraClassesGrouped) {
         if (extraClassesGrouped == null
-                || extraClassesGrouped.getActivityQualifiedClassName() == null
-                || extraClassesGrouped.getActivityQualifiedClassName().trim().equals("")) {
+                || extraClassesGrouped.getExtraAnnotatedClassName() == null
+                || extraClassesGrouped.getExtraAnnotatedClassName().trim().equals("")) {
             return false;
         }
-        return activityExtrasGroupeds.containsKey(extraClassesGrouped.getActivityQualifiedClassName());
+        return activityExtrasGroupeds.containsKey(extraClassesGrouped.getExtraAnnotatedClassName());
     }
 
     public void generateCode(Elements elementUtils, Types typeUtils, Filer filer) throws IOException {
@@ -91,7 +91,7 @@ public class ActivitiesClassBuilder {
     }
 
     private MethodSpec createMethodSpec(Elements elementUtils, Types typeUtils, ExtraClassesGrouped extraClassesGrouped) {
-        final String activityQualifiedClassName = extraClassesGrouped.getActivityQualifiedClassName();
+        final String activityQualifiedClassName = extraClassesGrouped.getExtraAnnotatedClassName();
         final TypeElement typeElement = elementUtils.getTypeElement(activityQualifiedClassName);
         final String activityName = typeElement.getSimpleName().toString();
 
@@ -111,7 +111,7 @@ public class ActivitiesClassBuilder {
         bindExtras(methodSpecBuilder, extraClassesGrouped, "bundle");
 
         // Build and return Intent.
-        return methodSpecBuilder.addStatement("$T intent = new $T(context, $L)", Intent.class, Intent.class, extraClassesGrouped.getActivityQualifiedClassName() + ".class")
+        return methodSpecBuilder.addStatement("$T intent = new $T(context, $L)", Intent.class, Intent.class, extraClassesGrouped.getExtraAnnotatedClassName() + ".class")
                 .addStatement("intent.putExtras(bundle)")
                 .addStatement("return intent")
                 .build();

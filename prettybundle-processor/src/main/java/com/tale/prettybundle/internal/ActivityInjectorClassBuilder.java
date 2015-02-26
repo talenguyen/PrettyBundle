@@ -30,16 +30,16 @@ public class ActivityInjectorClassBuilder {
     public ActivityInjectorClassBuilder(ExtraClassesGrouped extraClassesGrouped) throws IllegalAccessException, NullPointerException {
         if (extraClassesGrouped == null) {
             throw new NullPointerException("activityExtrasGrouped must not be null");
-        } else if (extraClassesGrouped.getActivityQualifiedClassName() == null
-                || extraClassesGrouped.getActivityQualifiedClassName().trim().equals("")) {
-            throw new IllegalAccessException("ActivityExtrasGrouped.getActivityQualifiedClassName() must not return null");
+        } else if (extraClassesGrouped.getExtraAnnotatedClassName() == null
+                || extraClassesGrouped.getExtraAnnotatedClassName().trim().equals("")) {
+            throw new IllegalAccessException("ActivityExtrasGrouped.getExtraAnnotatedClassName() must not return null");
         }
 
         this.extraClassesGrouped = extraClassesGrouped;
     }
 
     public void generateCode(Elements elementUtils, Filer filer) throws IOException {
-        final String activityQualifiedClassName = extraClassesGrouped.getActivityQualifiedClassName();
+        final String activityQualifiedClassName = extraClassesGrouped.getExtraAnnotatedClassName();
         final TypeElement typeElement = elementUtils.getTypeElement(activityQualifiedClassName);
         final String activityName = typeElement.getSimpleName().toString();
 
@@ -62,7 +62,7 @@ public class ActivityInjectorClassBuilder {
         final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("inject")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(TypeVariableName.get(extraClassesGrouped.getActivityQualifiedClassName()), "target");
+                .addParameter(TypeVariableName.get(extraClassesGrouped.getExtraAnnotatedClassName()), "target");
         addInjectStatement(methodBuilder, "target", elementUtils);
         return methodBuilder
                 .build();

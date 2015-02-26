@@ -9,21 +9,21 @@ import java.util.List;
 public class ExtraClassesGrouped {
 
     private final String packageName;
-    private final String activityQualifiedClassName;
+    private final String extraAnnotatedClassName;
     private List<ExtraAnnotatedClass> extraAnnotatedClasses = new ArrayList<ExtraAnnotatedClass>();
 
-    public ExtraClassesGrouped(String activityQualifiedClassName) {
-        this.activityQualifiedClassName = activityQualifiedClassName;
-        final int lastIndexOfDot = activityQualifiedClassName.lastIndexOf(".");
-        packageName = activityQualifiedClassName.substring(0, lastIndexOfDot);
+    public ExtraClassesGrouped(String extraAnnotatedClassName) {
+        this.extraAnnotatedClassName = extraAnnotatedClassName;
+        final int lastIndexOfDot = extraAnnotatedClassName.lastIndexOf(".");
+        packageName = extraAnnotatedClassName.substring(0, lastIndexOfDot);
     }
 
     public void add(ExtraAnnotatedClass extraAnnotatedClass) {
         extraAnnotatedClasses.add(extraAnnotatedClass);
     }
 
-    public String getActivityQualifiedClassName() {
-        return activityQualifiedClassName;
+    public String getExtraAnnotatedClassName() {
+        return extraAnnotatedClassName;
     }
 
     public String getPackageName() {
