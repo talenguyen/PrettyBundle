@@ -51,6 +51,8 @@ public class ActivitiesClassBuilder {
         if (supportedType == SupportedType.ACTIVITY) {
             // We replace the existed with the new or just add.
             activityExtrasGroupedMap.put(extraClassesGrouped.getExtraAnnotatedClassName(), extraClassesGrouped);
+        } else if (supportedType == SupportedType.FRAGMENT) {
+            fragmentExtrasGroupedMap.put(extraClassesGrouped.getExtraAnnotatedClassName(), extraClassesGrouped);
         }
     }
 
@@ -63,6 +65,8 @@ public class ActivitiesClassBuilder {
         final SupportedType supportedType = extraClassesGrouped.getSupportedType();
         if (supportedType == SupportedType.ACTIVITY) {
             return activityExtrasGroupedMap.containsKey(extraClassesGrouped.getExtraAnnotatedClassName());
+        } else if (supportedType == SupportedType.FRAGMENT) {
+            return fragmentExtrasGroupedMap.containsKey(extraClassesGrouped.getExtraAnnotatedClassName());
         }
         return true; // We don't want to save not supported type.
     }
@@ -112,6 +116,8 @@ public class ActivitiesClassBuilder {
         switch (extraClassesGrouped.getSupportedType()) {
             case ACTIVITY:
                 return createActivityMethodSpec(elementUtils, typeUtils, extraClassesGrouped);
+            case FRAGMENT:
+                return createFragmentMethodSpec(elementUtils, typeUtils, extraClassesGrouped);
         }
         return null;
     }
@@ -146,27 +152,25 @@ public class ActivitiesClassBuilder {
     private MethodSpec createFragmentMethodSpec(Elements elementUtils, Types typeUtils, ExtraClassesGrouped extraClassesGrouped) {
         final String fragmentQualifiedClassName = extraClassesGrouped.getExtraAnnotatedClassName();
         final TypeElement typeElement = elementUtils.getTypeElement(fragmentQualifiedClassName);
-        final String activityName = typeElement.getSimpleName().toString();
+        final String fragmentName = typeElement.getSimpleName().toString();
 
         // Declare method name.
-        final MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("create" + activityName + "Intent")
+        final MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("create" + fragmentName)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .returns(Intent.class);
+                .returns(TypeName.get(elementUtils.getTypeElement(fragmentQualifiedClassName).asType()));
 
         // Build parameters.
-        // Add Context object.
-        methodSpecBuilder.addParameter(Context.class, "context");
         buildParameters(methodSpecBuilder, extraClassesGrouped);
 
         // Declare bundle object.
-        methodSpecBuilder.addStatement("$T bundle = new $T()", Bundle.class, Bundle.class);
+        methodSpecBuilder.addStatement("$T args = new $T()", Bundle.class, Bundle.class);
         // Put extras base on key, value to bundle.
-        bindExtras(methodSpecBuilder, extraClassesGrouped, "bundle");
+        bindExtras(methodSpecBuilder, extraClassesGrouped, "args");
 
         // Build and return Intent.
-        return methodSpecBuilder.addStatement("$T intent = new $T(context, $L)", Intent.class, Intent.class, extraClassesGrouped.getExtraAnnotatedClassName() + ".class")
-                .addStatement("intent.putExtras(bundle)")
-                .addStatement("return intent")
+        return methodSpecBuilder.addStatement("$L fragment = new $L()", fragmentQualifiedClassName, fragmentQualifiedClassName)
+                .addStatement("fragment.setArguments(args)")
+                .addStatement("return fragment")
                 .build();
     }
 

@@ -23,14 +23,14 @@ public class ExtraAnnotatedClass {
     private ExtraBinder extraBinder;
     private SupportedType supportedType;
 
-    public ExtraAnnotatedClass(VariableElement annotatedVariableElement, Elements typeUtils, Types elementUtils) {
+    public ExtraAnnotatedClass(VariableElement annotatedVariableElement, Elements elements, Types types) {
         this.annotatedVariableElement = annotatedVariableElement;
         key = annotatedVariableElement.getSimpleName().toString();
         // Get the full QualifiedTypeName
         final TypeElement parent = (TypeElement) annotatedVariableElement.getEnclosingElement();
-        if (elementUtils.isSubtype(parent.asType(), typeUtils.getTypeElement("android.app.Activity").asType())) {
+        if (types.isSubtype(parent.asType(), elements.getTypeElement("android.app.Activity").asType())) {
             supportedType = SupportedType.ACTIVITY;
-        } else if (elementUtils.isSubtype(parent.asType(), typeUtils.getTypeElement("android.app.Fragment").asType())) {
+        } else if (types.isSubtype(parent.asType(), elements.getTypeElement("android.app.Fragment").asType())) {
             supportedType = SupportedType.FRAGMENT;
         } else {
             supportedType = SupportedType.NOP;
@@ -44,7 +44,7 @@ public class ExtraAnnotatedClass {
             return;
         }
         // Check if data type is kind of Parcelable.
-        if (elementUtils.isSubtype(dataType, typeUtils.getTypeElement("android.os.Parcelable").asType())) {
+        if (types.isSubtype(dataType, elements.getTypeElement("android.os.Parcelable").asType())) {
             extraBinder = ExtraBinderProvider.get("android.os.Parcelable");
             if (extraBinder != ExtraBinder.NOP) {
                 return;
@@ -54,8 +54,8 @@ public class ExtraAnnotatedClass {
         try {
             // Check if data type is kind of Array.
             dataTypeQualifiedClassName = ((ArrayType) dataType).getComponentType().toString();
-            final TypeMirror componentTypeMirror = typeUtils.getTypeElement(dataTypeQualifiedClassName).asType();
-            if (elementUtils.isSubtype(componentTypeMirror, typeUtils.getTypeElement("android.os.Parcelable").asType())) {
+            final TypeMirror componentTypeMirror = elements.getTypeElement(dataTypeQualifiedClassName).asType();
+            if (types.isSubtype(componentTypeMirror, elements.getTypeElement("android.os.Parcelable").asType())) {
                 extraBinder = ExtraBinderProvider.get("android.os.Parcelable[]");
                 if (extraBinder != ExtraBinder.NOP) {
                     return;
