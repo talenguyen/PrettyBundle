@@ -1,8 +1,5 @@
 #!/bin/bash
-
-bootanim=""
-failcounter=0
-until [[ "$bootanim" =~ "stopped" ]]; do
+bootanim="" failcounter=0 until [[ "$bootanim" =~ "stopped" ]]; do
    bootanim=`adb -e shell getprop init.svc.bootanim 2>&1`
    echo "$bootanim"
    if [[ "$bootanim" =~ "not found" ]]; then
@@ -12,6 +9,5 @@ until [[ "$bootanim" =~ "stopped" ]]; do
         exit 1
       fi
    fi
-   sleep 1
-done
+   sleep 1 done
 echo "Done"
