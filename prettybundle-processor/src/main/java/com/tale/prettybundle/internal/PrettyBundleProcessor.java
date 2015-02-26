@@ -33,7 +33,7 @@ public class PrettyBundleProcessor extends AbstractProcessor {
     private Elements elementUtils;
     private Filer filer;
     private Messager messager;
-    private ActivitiesClassBuilder activitiesClassBuilder = new ActivitiesClassBuilder();
+    private ExtraUtilityClassBuilder extraUtilityClassBuilder = new ExtraUtilityClassBuilder();
     private Map<String, ExtraClassesGrouped> extraGroupedClassesMap = new Hashtable<String, ExtraClassesGrouped>();
 
     @Override public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -78,14 +78,14 @@ public class PrettyBundleProcessor extends AbstractProcessor {
             }
             extraClassesGrouped.add(extraAnnotatedClass);
 
-            if (!activitiesClassBuilder.contains(extraClassesGrouped)) {
-                activitiesClassBuilder.add(extraClassesGrouped);
+            if (!extraUtilityClassBuilder.contains(extraClassesGrouped)) {
+                extraUtilityClassBuilder.add(extraClassesGrouped);
             }
         }
 
         try {
             // Generate Activities util class.
-            activitiesClassBuilder.generateCode(elementUtils, typeUtils, filer);
+            extraUtilityClassBuilder.generateCode(elementUtils, typeUtils, filer);
 
             // Generate Activity$$Injector classes.
             for (ExtraClassesGrouped extraClassesGrouped : extraGroupedClassesMap.values()) {
@@ -95,7 +95,7 @@ public class PrettyBundleProcessor extends AbstractProcessor {
                     error(null, e.getMessage());
                 }
             }
-            activitiesClassBuilder.clear();
+            extraUtilityClassBuilder.clear();
             extraGroupedClassesMap.clear();
         } catch (IOException e) {
             error(null, e.getMessage());

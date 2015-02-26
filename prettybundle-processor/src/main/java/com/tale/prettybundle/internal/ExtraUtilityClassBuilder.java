@@ -25,7 +25,7 @@ import javax.lang.model.util.Types;
 /**
  * Created by tale on 2/5/15.
  */
-public class ActivitiesClassBuilder {
+public class ExtraUtilityClassBuilder {
 
     private static final String ACTIVITIES = "Activities";
 
@@ -37,7 +37,7 @@ public class ActivitiesClassBuilder {
 
     private final Map<String, ExtraClassesGrouped> fragmentExtrasGroupedMap = new LinkedHashMap<String, ExtraClassesGrouped>();
 
-    public ActivitiesClassBuilder() {
+    public ExtraUtilityClassBuilder() {
     }
 
     public void add(ExtraClassesGrouped extraClassesGrouped) {
