@@ -90,7 +90,7 @@ public class PrettyBundleProcessor extends AbstractProcessor {
             // Generate Activity$$Injector classes.
             for (ExtraClassesGrouped extraClassesGrouped : extraGroupedClassesMap.values()) {
                 try {
-                    new ActivityInjectorClassBuilder(extraClassesGrouped).generateCode(elementUtils, filer);
+                    new ExtraInjectorClassBuilder(extraClassesGrouped).generateCode(elementUtils, filer);
                 } catch (IllegalAccessException e) {
                     error(null, e.getMessage());
                 }

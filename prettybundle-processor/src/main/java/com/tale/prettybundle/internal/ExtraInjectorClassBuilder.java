@@ -23,11 +23,11 @@ import javax.lang.model.util.Elements;
 /**
  * Created by tale on 2/5/15.
  */
-public class ActivityInjectorClassBuilder {
+public class ExtraInjectorClassBuilder {
 
     private final ExtraClassesGrouped extraClassesGrouped;
 
-    public ActivityInjectorClassBuilder(ExtraClassesGrouped extraClassesGrouped) throws IllegalAccessException, NullPointerException {
+    public ExtraInjectorClassBuilder(ExtraClassesGrouped extraClassesGrouped) throws IllegalAccessException, NullPointerException {
         if (extraClassesGrouped == null) {
             throw new NullPointerException("activityExtrasGrouped must not be null");
         } else if (extraClassesGrouped.getExtraAnnotatedClassName() == null
@@ -73,7 +73,14 @@ public class ActivityInjectorClassBuilder {
         if (extraAnnotatedClasses == null || extraAnnotatedClasses.size() == 0) {
             return;
         }
-        methodBuilder.addStatement("final $T extras = target.getIntent().getExtras()", Bundle.class);
+        final SupportedType supportedType = extraClassesGrouped.getSupportedType();
+        if (supportedType == SupportedType.ACTIVITY) {
+            methodBuilder.addStatement("final $T extras = target.getIntent().getExtras()", Bundle.class);
+        } else if (supportedType == SupportedType.FRAGMENT) {
+            methodBuilder.addStatement("final $T extras = target.getArguments()", Bundle.class);
+        } else {
+            return;
+        }
         methodBuilder.beginControlFlow("if(extras == null)")
                 .addStatement("return")
                 .endControlFlow();
