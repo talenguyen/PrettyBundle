@@ -21,12 +21,20 @@ public class ExtraAnnotatedClass {
     private String dataTypeQualifiedClassName;
     private final TypeMirror dataType;
     private ExtraBinder extraBinder;
+    private SupportedType supportedType;
 
     public ExtraAnnotatedClass(VariableElement annotatedVariableElement, Elements typeUtils, Types elementUtils) {
         this.annotatedVariableElement = annotatedVariableElement;
         key = annotatedVariableElement.getSimpleName().toString();
         // Get the full QualifiedTypeName
         final TypeElement parent = (TypeElement) annotatedVariableElement.getEnclosingElement();
+        if (elementUtils.isSubtype(parent.asType(), typeUtils.getTypeElement("android.app.Activity").asType())) {
+            supportedType = SupportedType.ACTIVITY;
+        } else if (elementUtils.isSubtype(parent.asType(), typeUtils.getTypeElement("android.app.Fragment").asType())) {
+            supportedType = SupportedType.FRAGMENT;
+        } else {
+            supportedType = SupportedType.NOP;
+        }
         qualifiedClassName = parent.getQualifiedName().toString();
         // Get the full Qualified of DataType.
         dataType = annotatedVariableElement.asType();
@@ -56,6 +64,10 @@ public class ExtraAnnotatedClass {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public SupportedType getSupportedType() {
+        return supportedType;
     }
 
     public VariableElement getAnnotatedVariableElement() {

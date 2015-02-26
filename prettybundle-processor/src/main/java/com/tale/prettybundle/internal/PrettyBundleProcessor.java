@@ -110,6 +110,10 @@ public class PrettyBundleProcessor extends AbstractProcessor {
     }
 
     private boolean isValidClass(ExtraAnnotatedClass extraAnnotatedClass) {
+        // Verify if class is supported or not.
+        if (extraAnnotatedClass.getSupportedType() == SupportedType.NOP) {
+            error(extraAnnotatedClass.getAnnotatedVariableElement(), "Only support Activity, Fragment and Service");
+        }
         // Verify modifiers is not private or protected
         if (extraAnnotatedClass.getAnnotatedVariableElement().getModifiers().contains(Modifier.PRIVATE)) {
             error(extraAnnotatedClass.getAnnotatedVariableElement(), "The data type must not declared by private modifier");
@@ -117,14 +121,14 @@ public class PrettyBundleProcessor extends AbstractProcessor {
             error(extraAnnotatedClass.getAnnotatedVariableElement(), "The data type must not declared by protected modifier");
         }
         // Check if data type is supported or not.
-        if (!isSupported(extraAnnotatedClass)) {
+        if (!isDataTypeSupported(extraAnnotatedClass)) {
             error(extraAnnotatedClass.getAnnotatedVariableElement(), "Data type: %s is not supported", extraAnnotatedClass.getDataTypeQualifiedClassName());
             return false;
         }
         return true;
     }
 
-    private boolean isSupported(ExtraAnnotatedClass extraAnnotatedClass) {
+    private boolean isDataTypeSupported(ExtraAnnotatedClass extraAnnotatedClass) {
         if (extraAnnotatedClass.getExtraBinder() == ExtraBinder.NOP) {
             return false;
         }

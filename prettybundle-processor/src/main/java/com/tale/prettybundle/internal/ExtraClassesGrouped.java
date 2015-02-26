@@ -11,6 +11,7 @@ public class ExtraClassesGrouped {
     private final String packageName;
     private final String extraAnnotatedClassName;
     private List<ExtraAnnotatedClass> extraAnnotatedClasses = new ArrayList<ExtraAnnotatedClass>();
+    private SupportedType supportedType = SupportedType.NOP;
 
     public ExtraClassesGrouped(String extraAnnotatedClassName) {
         this.extraAnnotatedClassName = extraAnnotatedClassName;
@@ -19,6 +20,12 @@ public class ExtraClassesGrouped {
     }
 
     public void add(ExtraAnnotatedClass extraAnnotatedClass) {
+        if (extraAnnotatedClass == null) {
+            return;
+        }
+        if (supportedType == SupportedType.NOP) {
+            supportedType = extraAnnotatedClass.getSupportedType();
+        }
         extraAnnotatedClasses.add(extraAnnotatedClass);
     }
 
@@ -32,5 +39,9 @@ public class ExtraClassesGrouped {
 
     public List<ExtraAnnotatedClass> getExtraAnnotatedClasses() {
         return extraAnnotatedClasses;
+    }
+
+    public SupportedType getSupportedType() {
+        return supportedType;
     }
 }

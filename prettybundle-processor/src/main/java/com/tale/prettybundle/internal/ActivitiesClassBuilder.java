@@ -29,9 +29,13 @@ public class ActivitiesClassBuilder {
 
     private static final String ACTIVITIES = "Activities";
 
+    private static final String FRAGMENTS = "Fragments";
+
     private static final String packageName = "com.tale.prettybundle";
 
-    private final Map<String, ExtraClassesGrouped> activityExtrasGroupeds = new LinkedHashMap<String, ExtraClassesGrouped>();
+    private final Map<String, ExtraClassesGrouped> activityExtrasGroupedMap = new LinkedHashMap<String, ExtraClassesGrouped>();
+
+    private final Map<String, ExtraClassesGrouped> fragmentExtrasGroupedMap = new LinkedHashMap<String, ExtraClassesGrouped>();
 
     public ActivitiesClassBuilder() {
     }
@@ -43,8 +47,11 @@ public class ActivitiesClassBuilder {
             return;
         }
 
-        // We replace the existed with the new or just add.
-        activityExtrasGroupeds.put(extraClassesGrouped.getExtraAnnotatedClassName(), extraClassesGrouped);
+        final SupportedType supportedType = extraClassesGrouped.getSupportedType();
+        if (supportedType == SupportedType.ACTIVITY) {
+            // We replace the existed with the new or just add.
+            activityExtrasGroupedMap.put(extraClassesGrouped.getExtraAnnotatedClassName(), extraClassesGrouped);
+        }
     }
 
     public boolean contains(ExtraClassesGrouped extraClassesGrouped) {
@@ -53,21 +60,32 @@ public class ActivitiesClassBuilder {
                 || extraClassesGrouped.getExtraAnnotatedClassName().trim().equals("")) {
             return false;
         }
-        return activityExtrasGroupeds.containsKey(extraClassesGrouped.getExtraAnnotatedClassName());
+        final SupportedType supportedType = extraClassesGrouped.getSupportedType();
+        if (supportedType == SupportedType.ACTIVITY) {
+            return activityExtrasGroupedMap.containsKey(extraClassesGrouped.getExtraAnnotatedClassName());
+        }
+        return true; // We don't want to save not supported type.
     }
 
     public void generateCode(Elements elementUtils, Types typeUtils, Filer filer) throws IOException {
+        if (activityExtrasGroupedMap.size() > 0) {
+            generateCode(ACTIVITIES, activityExtrasGroupedMap, elementUtils, typeUtils, filer);
+        }
+        if (fragmentExtrasGroupedMap.size() > 0) {
+            generateCode(FRAGMENTS, fragmentExtrasGroupedMap, elementUtils, typeUtils, filer);
+        }
+    }
 
-        final List<MethodSpec> methods = getMethods(elementUtils, typeUtils);
+    private void generateCode(String className, Map<String, ExtraClassesGrouped> extrasGroupedMap, Elements elementUtils, Types typeUtils, Filer filer) throws IOException {
+        final TypeSpec.Builder activitiesClassBuilder = TypeSpec.classBuilder(className)
+                .addModifiers(Modifier.PUBLIC);
+
+        final List<MethodSpec> methods = getMethods(extrasGroupedMap, elementUtils, typeUtils);
 
         if (methods == null || methods.size() == 0) {
             // Nothing created if there is no @Extra annotation is Added.
             return;
         }
-
-        final TypeSpec.Builder activitiesClassBuilder = TypeSpec.classBuilder(ACTIVITIES)
-                .addModifiers(Modifier.PUBLIC);
-
         for (MethodSpec method : methods) {
             activitiesClassBuilder.addMethod(method);
         }
@@ -75,13 +93,13 @@ public class ActivitiesClassBuilder {
         JavaFile.builder(packageName, activitiesClassBuilder.build()).build().writeTo(filer);
     }
 
-    private List<MethodSpec> getMethods(Elements elementUtils, Types typeUtils) {
-        final int size = activityExtrasGroupeds.size();
+    private List<MethodSpec> getMethods(Map<String, ExtraClassesGrouped> extrasGroupedMap, Elements elementUtils, Types typeUtils) {
+        final int size = extrasGroupedMap.size();
         if (size == 0) {
             return null;
         }
         final List<MethodSpec> methodSpecs = new ArrayList<MethodSpec>(size);
-        for (ExtraClassesGrouped extraClassesGrouped : activityExtrasGroupeds.values()) {
+        for (ExtraClassesGrouped extraClassesGrouped : extrasGroupedMap.values()) {
             final MethodSpec methodSpec = createMethodSpec(elementUtils, typeUtils, extraClassesGrouped);
             if (methodSpec != null) {
                 methodSpecs.add(methodSpec);
@@ -91,6 +109,14 @@ public class ActivitiesClassBuilder {
     }
 
     private MethodSpec createMethodSpec(Elements elementUtils, Types typeUtils, ExtraClassesGrouped extraClassesGrouped) {
+        switch (extraClassesGrouped.getSupportedType()) {
+            case ACTIVITY:
+                return createActivityMethodSpec(elementUtils, typeUtils, extraClassesGrouped);
+        }
+        return null;
+    }
+
+    private MethodSpec createActivityMethodSpec(Elements elementUtils, Types typeUtils, ExtraClassesGrouped extraClassesGrouped) {
         final String activityQualifiedClassName = extraClassesGrouped.getExtraAnnotatedClassName();
         final TypeElement typeElement = elementUtils.getTypeElement(activityQualifiedClassName);
         final String activityName = typeElement.getSimpleName().toString();
@@ -103,7 +129,34 @@ public class ActivitiesClassBuilder {
         // Build parameters.
         // Add Context object.
         methodSpecBuilder.addParameter(Context.class, "context");
-        buildParameters(methodSpecBuilder, extraClassesGrouped, elementUtils, typeUtils);
+        buildParameters(methodSpecBuilder, extraClassesGrouped);
+
+        // Declare bundle object.
+        methodSpecBuilder.addStatement("$T bundle = new $T()", Bundle.class, Bundle.class);
+        // Put extras base on key, value to bundle.
+        bindExtras(methodSpecBuilder, extraClassesGrouped, "bundle");
+
+        // Build and return Intent.
+        return methodSpecBuilder.addStatement("$T intent = new $T(context, $L)", Intent.class, Intent.class, extraClassesGrouped.getExtraAnnotatedClassName() + ".class")
+                .addStatement("intent.putExtras(bundle)")
+                .addStatement("return intent")
+                .build();
+    }
+
+    private MethodSpec createFragmentMethodSpec(Elements elementUtils, Types typeUtils, ExtraClassesGrouped extraClassesGrouped) {
+        final String fragmentQualifiedClassName = extraClassesGrouped.getExtraAnnotatedClassName();
+        final TypeElement typeElement = elementUtils.getTypeElement(fragmentQualifiedClassName);
+        final String activityName = typeElement.getSimpleName().toString();
+
+        // Declare method name.
+        final MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("create" + activityName + "Intent")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .returns(Intent.class);
+
+        // Build parameters.
+        // Add Context object.
+        methodSpecBuilder.addParameter(Context.class, "context");
+        buildParameters(methodSpecBuilder, extraClassesGrouped);
 
         // Declare bundle object.
         methodSpecBuilder.addStatement("$T bundle = new $T()", Bundle.class, Bundle.class);
@@ -143,7 +196,7 @@ public class ActivitiesClassBuilder {
         }
     }
 
-    private void buildParameters(MethodSpec.Builder methodSpecBuilder, ExtraClassesGrouped extraClassesGrouped, Elements elementUtils, Types typeUtils) {
+    private void buildParameters(MethodSpec.Builder methodSpecBuilder, ExtraClassesGrouped extraClassesGrouped) {
         final List<ExtraAnnotatedClass> extraAnnotatedClasses = extraClassesGrouped.getExtraAnnotatedClasses();
         if (extraAnnotatedClasses == null || extraAnnotatedClasses.size() == 0) {
             return;
@@ -154,6 +207,7 @@ public class ActivitiesClassBuilder {
     }
 
     public void clear() {
-        activityExtrasGroupeds.clear();
+        activityExtrasGroupedMap.clear();
+        fragmentExtrasGroupedMap.clear();
     }
 }
