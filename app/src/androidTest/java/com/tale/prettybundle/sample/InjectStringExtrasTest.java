@@ -6,6 +6,8 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.tale.prettybundle.sample.espresso.ExtViewActions;
+
 /**
  * Created by tale on 2/18/15.
  */
@@ -23,10 +25,10 @@ public class InjectStringExtrasTest extends ActivityInstrumentationTestCase2<Mai
     public void testStartActivityTestStringExtra2WithExtras() throws Exception {
         final String extra1 = "Giang";
         final String extra2 = "Nguyen";
-        Espresso.onView(ViewMatchers.withHint(R.string.string_extra_1)).perform(ViewActions.typeText(extra1));
-        Espresso.onView(ViewMatchers.withHint(R.string.string_extra_2)).perform(ViewActions.typeText(extra2));
+        Espresso.onView(ViewMatchers.withHint(R.string.string_extra_1)).perform(ViewActions.typeText(extra1), ViewActions.pressImeActionButton());
+        Espresso.onView(ViewMatchers.withHint(R.string.string_extra_2)).perform(ViewActions.typeText(extra2), ViewActions.pressImeActionButton());
 
-        Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ExtViewActions.waitForSoftKeyboard(), ViewActions.click());
 
         Espresso.onView(ViewMatchers.withText(extra1)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withText(extra2)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
@@ -36,7 +38,9 @@ public class InjectStringExtrasTest extends ActivityInstrumentationTestCase2<Mai
         final String extra2 = "Nguyen";
         Espresso.onView(ViewMatchers.withHint(R.string.string_extra_2)).perform(ViewActions.typeText(extra2));
 
-        Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ViewActions.click());
+        Espresso.closeSoftKeyboard();
+
+        Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ExtViewActions.waitForSoftKeyboard(), ViewActions.click());
 
         Espresso.onView(ViewMatchers.withText("Default")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withText(extra2)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));

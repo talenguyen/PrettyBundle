@@ -3,12 +3,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:padding="16dp"
     >
 
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:columnCount="2"
         >
 
@@ -61,17 +61,6 @@
             />
 
         <TextView
-            android:text="boolean:"
-            />
-
-        <CheckBox
-            android:id="@+id/cbBoolean"
-            android:layout_gravity="fill_horizontal"
-            android:layout_marginLeft="16dp"
-            android:hint="@string/hint_true_or_false"
-            />
-
-        <TextView
             android:text="String:"
             />
 
@@ -80,6 +69,7 @@
             android:layout_gravity="fill_horizontal"
             android:layout_marginLeft="16dp"
             android:hint="@string/hint_string"
+            android:singleLine="true"
             />
 
         <TextView
@@ -91,11 +81,24 @@
             android:layout_gravity="fill_horizontal"
             android:layout_marginLeft="16dp"
             android:hint="@string/hint_char_sequence"
+            android:singleLine="true"
+            />
+
+        <TextView
+            android:text="boolean:"
+            />
+
+        <CheckBox
+            android:id="@+id/cbBoolean"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_true_or_false"
             />
 
         <Button
             android:id="@+id/btSubmit"
             android:text="@string/submit"
+            android:layout_columnSpan="2"
             />
 
     </GridLayout>
