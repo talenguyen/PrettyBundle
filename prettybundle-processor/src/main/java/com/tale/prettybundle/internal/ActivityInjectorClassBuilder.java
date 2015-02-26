@@ -25,35 +25,35 @@ import javax.lang.model.util.Elements;
  */
 public class ActivityInjectorClassBuilder {
 
-    private final ActivityExtrasGrouped activityExtrasGrouped;
+    private final ExtraClassesGrouped extraClassesGrouped;
 
-    public ActivityInjectorClassBuilder(ActivityExtrasGrouped activityExtrasGrouped) throws IllegalAccessException, NullPointerException {
-        if (activityExtrasGrouped == null) {
+    public ActivityInjectorClassBuilder(ExtraClassesGrouped extraClassesGrouped) throws IllegalAccessException, NullPointerException {
+        if (extraClassesGrouped == null) {
             throw new NullPointerException("activityExtrasGrouped must not be null");
-        } else if (activityExtrasGrouped.getActivityQualifiedClassName() == null
-                || activityExtrasGrouped.getActivityQualifiedClassName().trim().equals("")) {
+        } else if (extraClassesGrouped.getActivityQualifiedClassName() == null
+                || extraClassesGrouped.getActivityQualifiedClassName().trim().equals("")) {
             throw new IllegalAccessException("ActivityExtrasGrouped.getActivityQualifiedClassName() must not return null");
         }
 
-        this.activityExtrasGrouped = activityExtrasGrouped;
+        this.extraClassesGrouped = extraClassesGrouped;
     }
 
     public void generateCode(Elements elementUtils, Filer filer) throws IOException {
-        final String activityQualifiedClassName = activityExtrasGrouped.getActivityQualifiedClassName();
+        final String activityQualifiedClassName = extraClassesGrouped.getActivityQualifiedClassName();
         final TypeElement typeElement = elementUtils.getTypeElement(activityQualifiedClassName);
         final String activityName = typeElement.getSimpleName().toString();
 
         final MethodSpec injectMethod = buildInjectMethod(elementUtils);
 
         ClassName injector = ClassName.get(Injector.class);
-        ClassName activity = ClassName.get(activityExtrasGrouped.getPackageName(), activityName);
+        ClassName activity = ClassName.get(extraClassesGrouped.getPackageName(), activityName);
 
         final TypeSpec activityInjectorClass = TypeSpec.classBuilder(activityName + PrettyBundle.INJECTOR_SUFFIX)
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(ParameterizedTypeName.get(injector, activity))
                 .addMethod(injectMethod).build();
 
-        JavaFile javaFile = JavaFile.builder(activityExtrasGrouped.getPackageName(), activityInjectorClass)
+        JavaFile javaFile = JavaFile.builder(extraClassesGrouped.getPackageName(), activityInjectorClass)
                 .build();
         javaFile.writeTo(filer);
     }
@@ -62,14 +62,14 @@ public class ActivityInjectorClassBuilder {
         final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("inject")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(TypeVariableName.get(activityExtrasGrouped.getActivityQualifiedClassName()), "target");
+                .addParameter(TypeVariableName.get(extraClassesGrouped.getActivityQualifiedClassName()), "target");
         addInjectStatement(methodBuilder, "target", elementUtils);
         return methodBuilder
                 .build();
     }
 
     private void addInjectStatement(MethodSpec.Builder methodBuilder, String targetName, Elements elementUtils) {
-        final List<ExtraAnnotatedClass> extraAnnotatedClasses = activityExtrasGrouped.getExtraAnnotatedClasses();
+        final List<ExtraAnnotatedClass> extraAnnotatedClasses = extraClassesGrouped.getExtraAnnotatedClasses();
         if (extraAnnotatedClasses == null || extraAnnotatedClasses.size() == 0) {
             return;
         }

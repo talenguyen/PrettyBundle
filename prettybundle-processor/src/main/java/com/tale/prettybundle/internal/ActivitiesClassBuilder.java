@@ -31,29 +31,29 @@ public class ActivitiesClassBuilder {
 
     private static final String packageName = "com.tale.prettybundle";
 
-    private final Map<String, ActivityExtrasGrouped> activityExtrasGroupeds = new LinkedHashMap<String, ActivityExtrasGrouped>();
+    private final Map<String, ExtraClassesGrouped> activityExtrasGroupeds = new LinkedHashMap<String, ExtraClassesGrouped>();
 
     public ActivitiesClassBuilder() {
     }
 
-    public void add(ActivityExtrasGrouped activityExtrasGrouped) {
-        if (activityExtrasGrouped == null
-                || activityExtrasGrouped.getActivityQualifiedClassName() == null
-                || activityExtrasGrouped.getActivityQualifiedClassName().trim().equals("")) {
+    public void add(ExtraClassesGrouped extraClassesGrouped) {
+        if (extraClassesGrouped == null
+                || extraClassesGrouped.getActivityQualifiedClassName() == null
+                || extraClassesGrouped.getActivityQualifiedClassName().trim().equals("")) {
             return;
         }
 
         // We replace the existed with the new or just add.
-        activityExtrasGroupeds.put(activityExtrasGrouped.getActivityQualifiedClassName(), activityExtrasGrouped);
+        activityExtrasGroupeds.put(extraClassesGrouped.getActivityQualifiedClassName(), extraClassesGrouped);
     }
 
-    public boolean contains(ActivityExtrasGrouped activityExtrasGrouped) {
-        if (activityExtrasGrouped == null
-                || activityExtrasGrouped.getActivityQualifiedClassName() == null
-                || activityExtrasGrouped.getActivityQualifiedClassName().trim().equals("")) {
+    public boolean contains(ExtraClassesGrouped extraClassesGrouped) {
+        if (extraClassesGrouped == null
+                || extraClassesGrouped.getActivityQualifiedClassName() == null
+                || extraClassesGrouped.getActivityQualifiedClassName().trim().equals("")) {
             return false;
         }
-        return activityExtrasGroupeds.containsKey(activityExtrasGrouped.getActivityQualifiedClassName());
+        return activityExtrasGroupeds.containsKey(extraClassesGrouped.getActivityQualifiedClassName());
     }
 
     public void generateCode(Elements elementUtils, Types typeUtils, Filer filer) throws IOException {
@@ -81,8 +81,8 @@ public class ActivitiesClassBuilder {
             return null;
         }
         final List<MethodSpec> methodSpecs = new ArrayList<MethodSpec>(size);
-        for (ActivityExtrasGrouped activityExtrasGrouped : activityExtrasGroupeds.values()) {
-            final MethodSpec methodSpec = createMethodSpec(elementUtils, typeUtils, activityExtrasGrouped);
+        for (ExtraClassesGrouped extraClassesGrouped : activityExtrasGroupeds.values()) {
+            final MethodSpec methodSpec = createMethodSpec(elementUtils, typeUtils, extraClassesGrouped);
             if (methodSpec != null) {
                 methodSpecs.add(methodSpec);
             }
@@ -90,8 +90,8 @@ public class ActivitiesClassBuilder {
         return methodSpecs;
     }
 
-    private MethodSpec createMethodSpec(Elements elementUtils, Types typeUtils, ActivityExtrasGrouped activityExtrasGrouped) {
-        final String activityQualifiedClassName = activityExtrasGrouped.getActivityQualifiedClassName();
+    private MethodSpec createMethodSpec(Elements elementUtils, Types typeUtils, ExtraClassesGrouped extraClassesGrouped) {
+        final String activityQualifiedClassName = extraClassesGrouped.getActivityQualifiedClassName();
         final TypeElement typeElement = elementUtils.getTypeElement(activityQualifiedClassName);
         final String activityName = typeElement.getSimpleName().toString();
 
@@ -103,22 +103,22 @@ public class ActivitiesClassBuilder {
         // Build parameters.
         // Add Context object.
         methodSpecBuilder.addParameter(Context.class, "context");
-        buildParameters(methodSpecBuilder, activityExtrasGrouped, elementUtils, typeUtils);
+        buildParameters(methodSpecBuilder, extraClassesGrouped, elementUtils, typeUtils);
 
         // Declare bundle object.
         methodSpecBuilder.addStatement("$T bundle = new $T()", Bundle.class, Bundle.class);
         // Put extras base on key, value to bundle.
-        bindExtras(methodSpecBuilder, activityExtrasGrouped, "bundle");
+        bindExtras(methodSpecBuilder, extraClassesGrouped, "bundle");
 
         // Build and return Intent.
-        return methodSpecBuilder.addStatement("$T intent = new $T(context, $L)", Intent.class, Intent.class, activityExtrasGrouped.getActivityQualifiedClassName() + ".class")
+        return methodSpecBuilder.addStatement("$T intent = new $T(context, $L)", Intent.class, Intent.class, extraClassesGrouped.getActivityQualifiedClassName() + ".class")
                 .addStatement("intent.putExtras(bundle)")
                 .addStatement("return intent")
                 .build();
     }
 
-    private void bindExtras(MethodSpec.Builder methodSpecBuilder, ActivityExtrasGrouped activityExtrasGrouped, String targetName) {
-        final List<ExtraAnnotatedClass> extraAnnotatedClasses = activityExtrasGrouped.getExtraAnnotatedClasses();
+    private void bindExtras(MethodSpec.Builder methodSpecBuilder, ExtraClassesGrouped extraClassesGrouped, String targetName) {
+        final List<ExtraAnnotatedClass> extraAnnotatedClasses = extraClassesGrouped.getExtraAnnotatedClasses();
         if (extraAnnotatedClasses == null || extraAnnotatedClasses.size() == 0) {
             return;
         }
@@ -143,8 +143,8 @@ public class ActivitiesClassBuilder {
         }
     }
 
-    private void buildParameters(MethodSpec.Builder methodSpecBuilder, ActivityExtrasGrouped activityExtrasGrouped, Elements elementUtils, Types typeUtils) {
-        final List<ExtraAnnotatedClass> extraAnnotatedClasses = activityExtrasGrouped.getExtraAnnotatedClasses();
+    private void buildParameters(MethodSpec.Builder methodSpecBuilder, ExtraClassesGrouped extraClassesGrouped, Elements elementUtils, Types typeUtils) {
+        final List<ExtraAnnotatedClass> extraAnnotatedClasses = extraClassesGrouped.getExtraAnnotatedClasses();
         if (extraAnnotatedClasses == null || extraAnnotatedClasses.size() == 0) {
             return;
         }

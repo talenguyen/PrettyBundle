@@ -6,13 +6,13 @@ import java.util.List;
 /**
  * Created by tale on 2/5/15.
  */
-public class ActivityExtrasGrouped {
+public class ExtraClassesGrouped {
 
     private final String packageName;
     private final String activityQualifiedClassName;
     private List<ExtraAnnotatedClass> extraAnnotatedClasses = new ArrayList<ExtraAnnotatedClass>();
 
-    public ActivityExtrasGrouped(String activityQualifiedClassName) {
+    public ExtraClassesGrouped(String activityQualifiedClassName) {
         this.activityQualifiedClassName = activityQualifiedClassName;
         final int lastIndexOfDot = activityQualifiedClassName.lastIndexOf(".");
         packageName = activityQualifiedClassName.substring(0, lastIndexOfDot);

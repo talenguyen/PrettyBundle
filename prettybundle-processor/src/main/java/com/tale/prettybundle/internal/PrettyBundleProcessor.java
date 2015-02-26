@@ -34,7 +34,7 @@ public class PrettyBundleProcessor extends AbstractProcessor {
     private Filer filer;
     private Messager messager;
     private ActivitiesClassBuilder activitiesClassBuilder = new ActivitiesClassBuilder();
-    private Map<String, ActivityExtrasGrouped> extraGroupedClassesMap = new Hashtable<String, ActivityExtrasGrouped>();
+    private Map<String, ExtraClassesGrouped> extraGroupedClassesMap = new Hashtable<String, ExtraClassesGrouped>();
 
     @Override public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
@@ -71,15 +71,15 @@ public class PrettyBundleProcessor extends AbstractProcessor {
             }
 
             final String activityQualifiedClassName = extraAnnotatedClass.getQualifiedClassName();
-            ActivityExtrasGrouped activityExtrasGrouped = extraGroupedClassesMap.get(activityQualifiedClassName);
-            if (activityExtrasGrouped == null) {
-                activityExtrasGrouped = new ActivityExtrasGrouped(activityQualifiedClassName);
-                extraGroupedClassesMap.put(activityQualifiedClassName, activityExtrasGrouped);
+            ExtraClassesGrouped extraClassesGrouped = extraGroupedClassesMap.get(activityQualifiedClassName);
+            if (extraClassesGrouped == null) {
+                extraClassesGrouped = new ExtraClassesGrouped(activityQualifiedClassName);
+                extraGroupedClassesMap.put(activityQualifiedClassName, extraClassesGrouped);
             }
-            activityExtrasGrouped.add(extraAnnotatedClass);
+            extraClassesGrouped.add(extraAnnotatedClass);
 
-            if (!activitiesClassBuilder.contains(activityExtrasGrouped)) {
-                activitiesClassBuilder.add(activityExtrasGrouped);
+            if (!activitiesClassBuilder.contains(extraClassesGrouped)) {
+                activitiesClassBuilder.add(extraClassesGrouped);
             }
         }
 
@@ -88,9 +88,9 @@ public class PrettyBundleProcessor extends AbstractProcessor {
             activitiesClassBuilder.generateCode(elementUtils, typeUtils, filer);
 
             // Generate Activity$$Injector classes.
-            for (ActivityExtrasGrouped activityExtrasGrouped : extraGroupedClassesMap.values()) {
+            for (ExtraClassesGrouped extraClassesGrouped : extraGroupedClassesMap.values()) {
                 try {
-                    new ActivityInjectorClassBuilder(activityExtrasGrouped).generateCode(elementUtils, filer);
+                    new ActivityInjectorClassBuilder(extraClassesGrouped).generateCode(elementUtils, filer);
                 } catch (IllegalAccessException e) {
                     error(null, e.getMessage());
                 }
