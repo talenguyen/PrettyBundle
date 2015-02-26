@@ -26,5 +26,6 @@
     <string name="boolean_array">Boolean array</string>
     <string name="hint_char_sequence">CharSequence</string>
     <string name="test_array_extras">Test Array Extras</string>
+    <string name="test_fragment_inject">Test Fragment Inject</string>
 
 </resources>

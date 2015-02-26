@@ -1,19 +1,24 @@
-package com.tale.prettybundle.sample;
+package com.tale.prettybundle.sample.fragments;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tale.prettybundle.Extra;
 import com.tale.prettybundle.PrettyBundle;
+import com.tale.prettybundle.sample.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by giang on 2/24/15.
+ * Created by giang on 2/26/15.
  */
-public class TestPrimaryTypeDisplayActivity extends FragmentActivity {
+public class TestPrimaryExtraFragment extends Fragment {
 
     @Extra int intVal = 0;
     @Extra long longVal = 0;
@@ -33,10 +38,16 @@ public class TestPrimaryTypeDisplayActivity extends FragmentActivity {
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_test_primary_type_display);
-        ButterKnife.inject(this);
-
         PrettyBundle.inject(this);
+    }
+
+    @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.layout_test_primary_type_display, container, false);
+    }
+
+    @Override public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.inject(this, view);
 
         tvInt.setText(String.valueOf(intVal));
         tvLong.setText(String.valueOf(longVal));

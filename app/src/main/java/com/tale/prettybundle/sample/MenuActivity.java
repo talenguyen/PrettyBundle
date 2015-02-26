@@ -43,4 +43,8 @@ public class MenuActivity extends Activity {
         final Person[] persons = {new Person("p1", 18), new Person("p2", 19)};
         startActivity(Activities.createTestArrayExtrasActivityIntent(this, ints, longs, floats, doubles, booleans, strings, persons));
     }
+
+    @OnClick(R.id.btTestFragmentInject) public void testFragmentInject() {
+        startActivity(new Intent(this, TestExtraOnFragmentActivity.class));
+    }
 }

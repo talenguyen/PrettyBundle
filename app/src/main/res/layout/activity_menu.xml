@@ -33,4 +33,11 @@
         android:layout_height="wrap_content"
         android:text="@string/test_array_extras"
         />
+
+    <Button
+        android:id="@+id/btTestFragmentInject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/test_fragment_inject"
+        />
 </LinearLayout>
