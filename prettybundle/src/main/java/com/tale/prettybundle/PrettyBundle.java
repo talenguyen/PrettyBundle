@@ -1,5 +1,10 @@
 package com.tale.prettybundle;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.Service;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import java.util.LinkedHashMap;
@@ -38,7 +43,7 @@ public final class PrettyBundle {
             new LinkedHashMap<Class<?>, Injector<Object>>();
 
     private static final Injector<Object> NOP_INJECTOR = new Injector<Object>() {
-        @Override public void inject(Object target) {
+        @Override public void inject(Object target, Bundle extras) {
 
         }
     };
@@ -50,13 +55,37 @@ public final class PrettyBundle {
         PrettyBundle.debug = debug;
     }
 
-    public static void inject(Object target) {
+    public static void inject(Activity activity) {
+        if (activity == null) {
+            return;
+        }
+
+        inject(activity, activity.getIntent().getExtras());
+    }
+
+    public static void inject(Fragment fragment) {
+        if (fragment == null) {
+            return;
+        }
+
+        inject(fragment, fragment.getArguments());
+    }
+
+    public static void inject(Service service, Intent intent) {
+        if (service == null) {
+            return;
+        }
+
+        inject(service, intent == null ? null : intent.getExtras());
+    }
+
+    private static void inject(Object target, Bundle extras) {
         Class<?> targetClass = target.getClass();
         try {
             if (debug) Log.d(TAG, "Looking up view injector for " + targetClass.getName());
             Injector<Object> injector = findInjectorForClass(targetClass);
             if (injector != null) {
-                injector.inject(target);
+                injector.inject(target, extras);
             }
         } catch (RuntimeException e) {
             throw e;

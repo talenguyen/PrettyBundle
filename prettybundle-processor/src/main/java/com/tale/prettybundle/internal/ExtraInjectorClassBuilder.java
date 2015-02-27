@@ -62,7 +62,8 @@ public class ExtraInjectorClassBuilder {
         final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("inject")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(TypeVariableName.get(extraClassesGrouped.getExtraAnnotatedClassName()), "target");
+                .addParameter(TypeVariableName.get(extraClassesGrouped.getExtraAnnotatedClassName()), "target")
+                .addParameter(Bundle.class, "extras");
         addInjectStatement(methodBuilder, "target", elementUtils);
         return methodBuilder
                 .build();
@@ -71,14 +72,6 @@ public class ExtraInjectorClassBuilder {
     private void addInjectStatement(MethodSpec.Builder methodBuilder, String targetName, Elements elementUtils) {
         final List<ExtraAnnotatedClass> extraAnnotatedClasses = extraClassesGrouped.getExtraAnnotatedClasses();
         if (extraAnnotatedClasses == null || extraAnnotatedClasses.size() == 0) {
-            return;
-        }
-        final SupportedType supportedType = extraClassesGrouped.getSupportedType();
-        if (supportedType == SupportedType.ACTIVITY) {
-            methodBuilder.addStatement("final $T extras = target.getIntent().getExtras()", Bundle.class);
-        } else if (supportedType == SupportedType.FRAGMENT) {
-            methodBuilder.addStatement("final $T extras = target.getArguments()", Bundle.class);
-        } else {
             return;
         }
         methodBuilder.beginControlFlow("if(extras == null)")
