@@ -35,11 +35,12 @@ public class InjectPrimaryTypeExtrasTest extends ActivityInstrumentationTestCase
         Espresso.onView(ViewMatchers.withHint(R.string.hint_string)).perform(ViewActions.typeText(stringExtra), ViewActions.pressImeActionButton());
         final String charSequenceExtra = "CharSequence value";
         Espresso.onView(ViewMatchers.withHint(R.string.hint_char_sequence)).perform(ViewActions.typeText(charSequenceExtra), ViewActions.pressImeActionButton());
-        Espresso.onView(ViewMatchers.withHint(R.string.hint_true_or_false)).perform(ViewActions.click());
 
         Espresso.closeSoftKeyboard();
 
-        Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ExtViewActions.waitForSoftKeyboard(), ViewActions.scrollTo(), ViewActions.click());
+        Espresso.onView(ViewMatchers.withHint(R.string.hint_true_or_false)).perform(ExtViewActions.waitForSoftKeyboard(), ViewActions.scrollTo(), ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ViewActions.scrollTo(), ViewActions.click());
 
         Espresso.onView(ViewMatchers.withText(integerExtra)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withText(longExtra)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
