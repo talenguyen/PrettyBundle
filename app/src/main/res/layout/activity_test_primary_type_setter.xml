@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+    >
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:columnCount="2"
+        >
+
+        <TextView
+            android:text="boolean:"
+            />
+
+        <CheckBox
+            android:id="@+id/cbBoolean"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_true_or_false"
+            />
+
+        <TextView
+            android:text="int:"
+            />
+
+        <EditText
+            android:id="@+id/etInt"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_int"
+            android:inputType="number"
+            />
+
+        <TextView
+            android:text="long:"
+            />
+
+        <EditText
+            android:id="@+id/etLong"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_long"
+            android:inputType="number"
+            />
+
+        <TextView
+            android:text="float:"
+            />
+
+        <EditText
+            android:id="@+id/etFloat"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_float"
+            android:inputType="numberDecimal"
+            />
+
+        <TextView
+            android:text="double:"
+            />
+
+        <EditText
+            android:id="@+id/etDouble"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_double"
+            android:inputType="numberDecimal"
+            />
+
+        <TextView
+            android:text="String:"
+            />
+
+        <EditText
+            android:id="@+id/etString"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_string"
+            android:singleLine="true"
+            />
+
+        <TextView
+            android:text="CharSequence:"
+            />
+
+        <EditText
+            android:id="@+id/etCharSequence"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_char_sequence"
+            android:singleLine="true"
+            />
+
+        <Button
+            android:id="@+id/btSubmit"
+            android:text="@string/submit"
+            android:layout_columnSpan="2"
+            />
+
+    </GridLayout>
+
+
+</ScrollView>

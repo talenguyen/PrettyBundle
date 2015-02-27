@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="16dp"
+    >
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        >
+
+        <TextView
+            android:text="int array:"
+            />
+
+        <TextView
+            android:id="@+id/tvInts"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="long array:"
+            />
+
+        <TextView
+            android:id="@+id/tvLongs"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="float array:"
+            />
+
+        <TextView
+            android:id="@+id/tvFloats"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="double array:"
+            />
+
+        <TextView
+            android:id="@+id/tvDoubles"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="boolean array:"
+            />
+
+        <TextView
+            android:id="@+id/tvBooleans"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="String array:"
+            />
+
+        <TextView
+            android:id="@+id/tvStrings"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:padding="8dp"
+            />
+
+        <TextView
+            android:text="People:"
+            />
+
+        <TextView
+            android:id="@+id/tvPeople"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:padding="8dp"
+            android:textSize="10sp"
+            />
+
+    </GridLayout>
+
+
+</ScrollView>

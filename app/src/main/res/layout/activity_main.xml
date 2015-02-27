@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/string_extra_1"
+        android:singleLine="true"
         />
 
     <EditText
@@ -22,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/string_extra_2"
+        android:singleLine="true"
         />
 
     <Button

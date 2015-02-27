@@ -23,7 +23,7 @@ import java.util.Map;
  * </code></pre>
  */
 public final class PrettyBundle {
-    public static final String SUFFIX = "$$BundleInjector";
+    public static final String INJECTOR_SUFFIX = "$$BundleInjector";
     public static final String ANDROID_PREFIX = "android.";
     public static final String JAVA_PREFIX = "java.";
 
@@ -79,7 +79,7 @@ public final class PrettyBundle {
         }
 
         try {
-            Class<?> injectorClass = Class.forName(clsName + SUFFIX);
+            Class<?> injectorClass = Class.forName(clsName + INJECTOR_SUFFIX);
             //noinspection unchecked
             injector = (Injector<Object>) injectorClass.newInstance();
             if (debug) Log.d(TAG, "HIT: Class loaded injection class.");

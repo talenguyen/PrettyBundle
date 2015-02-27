@@ -3,6 +3,7 @@ package com.tale.prettybundle.sample;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.tale.prettybundle.Activities;
@@ -26,8 +27,11 @@ public class MainActivity extends FragmentActivity {
 
 
     @OnClick(R.id.btSubmit) public void submit() {
-        final String extra1 = etExtra1.getText().toString();
+        String extra1 = etExtra1.getText().toString();
         final String extra2 = etExtra2.getText().toString();
+        if (TextUtils.isEmpty(extra1)) {
+            extra1 = null;
+        }
         final Intent intent = Activities.createTestStringExtra2ActivityIntent(this, extra1, extra2);
         startActivity(intent);
     }

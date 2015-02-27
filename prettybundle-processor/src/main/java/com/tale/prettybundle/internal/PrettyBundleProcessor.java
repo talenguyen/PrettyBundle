@@ -2,6 +2,7 @@ package com.tale.prettybundle.internal;
 
 import com.google.auto.service.AutoService;
 import com.tale.prettybundle.Extra;
+import com.tale.prettybundle.ExtraBinder;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -32,8 +33,8 @@ public class PrettyBundleProcessor extends AbstractProcessor {
     private Elements elementUtils;
     private Filer filer;
     private Messager messager;
-    private ActivitiesClassBuilder activitiesClassBuilder = new ActivitiesClassBuilder();
-    private Map<String, ActivityExtrasGrouped> extraGroupedClassesMap = new Hashtable<String, ActivityExtrasGrouped>();
+    private ExtraUtilityClassBuilder extraUtilityClassBuilder = new ExtraUtilityClassBuilder();
+    private Map<String, ExtraClassesGrouped> extraGroupedClassesMap = new Hashtable<String, ExtraClassesGrouped>();
 
     @Override public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
@@ -63,28 +64,39 @@ public class PrettyBundleProcessor extends AbstractProcessor {
 
             final VariableElement annotatedVariableElement = (VariableElement) annotatedElement;
 
-            final ExtraAnnotatedClass extraAnnotatedClass = new ExtraAnnotatedClass(annotatedVariableElement);
+            final ExtraAnnotatedClass extraAnnotatedClass = new ExtraAnnotatedClass(annotatedVariableElement, elementUtils, typeUtils);
 
             if (!isValidClass(extraAnnotatedClass)) {
                 return true; // Error message printed, exit processing
             }
 
             final String activityQualifiedClassName = extraAnnotatedClass.getQualifiedClassName();
-            ActivityExtrasGrouped activityExtrasGrouped = extraGroupedClassesMap.get(activityQualifiedClassName);
-            if (activityExtrasGrouped == null) {
-                activityExtrasGrouped = new ActivityExtrasGrouped(activityQualifiedClassName);
-                extraGroupedClassesMap.put(activityQualifiedClassName, activityExtrasGrouped);
+            ExtraClassesGrouped extraClassesGrouped = extraGroupedClassesMap.get(activityQualifiedClassName);
+            if (extraClassesGrouped == null) {
+                extraClassesGrouped = new ExtraClassesGrouped(activityQualifiedClassName);
+                extraGroupedClassesMap.put(activityQualifiedClassName, extraClassesGrouped);
             }
-            activityExtrasGrouped.add(extraAnnotatedClass);
+            extraClassesGrouped.add(extraAnnotatedClass);
 
-            if (!activitiesClassBuilder.contains(activityExtrasGrouped)) {
-                activitiesClassBuilder.add(activityExtrasGrouped);
+            if (!extraUtilityClassBuilder.contains(extraClassesGrouped)) {
+                extraUtilityClassBuilder.add(extraClassesGrouped);
             }
         }
 
         try {
-            activitiesClassBuilder.generateCode(elementUtils, typeUtils, filer);
-            activitiesClassBuilder.clear();
+            // Generate Activities util class.
+            extraUtilityClassBuilder.generateCode(elementUtils, typeUtils, filer);
+
+            // Generate Activity$$Injector classes.
+            for (ExtraClassesGrouped extraClassesGrouped : extraGroupedClassesMap.values()) {
+                try {
+                    new ExtraInjectorClassBuilder(extraClassesGrouped).generateCode(elementUtils, filer);
+                } catch (IllegalAccessException e) {
+                    error(null, e.getMessage());
+                }
+            }
+            extraUtilityClassBuilder.clear();
+            extraGroupedClassesMap.clear();
         } catch (IOException e) {
             error(null, e.getMessage());
         }
@@ -98,6 +110,10 @@ public class PrettyBundleProcessor extends AbstractProcessor {
     }
 
     private boolean isValidClass(ExtraAnnotatedClass extraAnnotatedClass) {
+        // Verify if class is supported or not.
+        if (extraAnnotatedClass.getSupportedType() == SupportedType.NOP) {
+            error(extraAnnotatedClass.getAnnotatedVariableElement(), "Only support Activity, Fragment and Service");
+        }
         // Verify modifiers is not private or protected
         if (extraAnnotatedClass.getAnnotatedVariableElement().getModifiers().contains(Modifier.PRIVATE)) {
             error(extraAnnotatedClass.getAnnotatedVariableElement(), "The data type must not declared by private modifier");
@@ -105,18 +121,18 @@ public class PrettyBundleProcessor extends AbstractProcessor {
             error(extraAnnotatedClass.getAnnotatedVariableElement(), "The data type must not declared by protected modifier");
         }
         // Check if data type is supported or not.
-        if (!isSupported(extraAnnotatedClass.getDataTypeQualifiedClassName())) {
+        if (!isDataTypeSupported(extraAnnotatedClass)) {
             error(extraAnnotatedClass.getAnnotatedVariableElement(), "Data type: %s is not supported", extraAnnotatedClass.getDataTypeQualifiedClassName());
             return false;
         }
         return true;
     }
 
-    private boolean isSupported(String dataTypeQualifiedClassName) {
-        if ("java.lang.String".equals(dataTypeQualifiedClassName)) {
-            return true;
+    private boolean isDataTypeSupported(ExtraAnnotatedClass extraAnnotatedClass) {
+        if (extraAnnotatedClass.getExtraBinder() == ExtraBinder.NOP) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     private void error(Element element, String message, String... args) {

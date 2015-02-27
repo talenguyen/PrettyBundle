@@ -8,5 +8,24 @@
     <string name="string_extra_1">String extra 1</string>
     <string name="string_extra_2">String extra 2</string>
     <string name="submit">Submit</string>
+    <string name="hint_int">int</string>
+    <string name="hint_integer">Integer</string>
+    <string name="test_string_extras">Test String Extras</string>
+    <string name="test_primary_type_extras">Test Primary Type Extras</string>
+    <string name="hint_long">long</string>
+    <string name="hint_float">float</string>
+    <string name="hint_double">double</string>
+    <string name="hint_boolean">boolean</string>
+    <string name="hint_true_or_false">true or false</string>
+    <string name="hint_string">String</string>
+    <string name="test_parcelable_extras">Test Parcelable Extras</string>
+    <string name="title_activity_test_parcelable">TestParcelableActivity</string>
+    <string name="person">Person</string>
+    <string name="lbl_name">Name:</string>
+    <string name="lbl_age">Age:</string>
+    <string name="boolean_array">Boolean array</string>
+    <string name="hint_char_sequence">CharSequence</string>
+    <string name="test_array_extras">Test Array Extras</string>
+    <string name="test_fragment_inject">Test Fragment Inject</string>
 
 </resources>
