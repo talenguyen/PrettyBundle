@@ -6,5 +6,6 @@ package com.tale.prettybundle.internal;
 public enum SupportedType {
     ACTIVITY,
     FRAGMENT,
+    SERVICE,
     NOP
 }

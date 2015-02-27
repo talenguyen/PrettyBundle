@@ -30,6 +30,8 @@ public class ExtraAnnotatedClass {
         final TypeElement parent = (TypeElement) annotatedVariableElement.getEnclosingElement();
         if (types.isSubtype(parent.asType(), elements.getTypeElement("android.app.Activity").asType())) {
             supportedType = SupportedType.ACTIVITY;
+        } else if (types.isSubtype(parent.asType(), elements.getTypeElement("android.app.Service").asType())) {
+            supportedType = SupportedType.SERVICE;
         } else if (types.isSubtype(parent.asType(), elements.getTypeElement("android.app.Fragment").asType())) {
             supportedType = SupportedType.FRAGMENT;
         } else {
