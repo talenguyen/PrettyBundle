@@ -31,9 +31,13 @@ public class ExtraUtilityClassBuilder {
 
     private static final String FRAGMENTS = "Fragments";
 
+    private static final String SERVICES = "Services";
+
     private static final String packageName = "com.tale.prettybundle";
 
     private final Map<String, ExtraClassesGrouped> activityExtrasGroupedMap = new LinkedHashMap<String, ExtraClassesGrouped>();
+
+    private final Map<String, ExtraClassesGrouped> serviceExtrasGroupedMap = new LinkedHashMap<String, ExtraClassesGrouped>();
 
     private final Map<String, ExtraClassesGrouped> fragmentExtrasGroupedMap = new LinkedHashMap<String, ExtraClassesGrouped>();
 
@@ -51,6 +55,8 @@ public class ExtraUtilityClassBuilder {
         if (supportedType == SupportedType.ACTIVITY) {
             // We replace the existed with the new or just add.
             activityExtrasGroupedMap.put(extraClassesGrouped.getExtraAnnotatedClassName(), extraClassesGrouped);
+        } else if (supportedType == SupportedType.SERVICE) {
+            serviceExtrasGroupedMap.put(extraClassesGrouped.getExtraAnnotatedClassName(), extraClassesGrouped);
         } else if (supportedType == SupportedType.FRAGMENT) {
             fragmentExtrasGroupedMap.put(extraClassesGrouped.getExtraAnnotatedClassName(), extraClassesGrouped);
         }
@@ -65,6 +71,8 @@ public class ExtraUtilityClassBuilder {
         final SupportedType supportedType = extraClassesGrouped.getSupportedType();
         if (supportedType == SupportedType.ACTIVITY) {
             return activityExtrasGroupedMap.containsKey(extraClassesGrouped.getExtraAnnotatedClassName());
+        } else if (supportedType == SupportedType.SERVICE) {
+            return serviceExtrasGroupedMap.containsKey(extraClassesGrouped.getExtraAnnotatedClassName());
         } else if (supportedType == SupportedType.FRAGMENT) {
             return fragmentExtrasGroupedMap.containsKey(extraClassesGrouped.getExtraAnnotatedClassName());
         }
@@ -74,6 +82,9 @@ public class ExtraUtilityClassBuilder {
     public void generateCode(Elements elementUtils, Types typeUtils, Filer filer) throws IOException {
         if (activityExtrasGroupedMap.size() > 0) {
             generateCode(ACTIVITIES, activityExtrasGroupedMap, elementUtils, typeUtils, filer);
+        }
+        if (serviceExtrasGroupedMap.size() > 0) {
+            generateCode(SERVICES, serviceExtrasGroupedMap, elementUtils, typeUtils, filer);
         }
         if (fragmentExtrasGroupedMap.size() > 0) {
             generateCode(FRAGMENTS, fragmentExtrasGroupedMap, elementUtils, typeUtils, filer);
@@ -115,14 +126,15 @@ public class ExtraUtilityClassBuilder {
     private MethodSpec createMethodSpec(Elements elementUtils, Types typeUtils, ExtraClassesGrouped extraClassesGrouped) {
         switch (extraClassesGrouped.getSupportedType()) {
             case ACTIVITY:
-                return createActivityMethodSpec(elementUtils, typeUtils, extraClassesGrouped);
+            case SERVICE:
+                return createIntentMethodSpec(elementUtils, typeUtils, extraClassesGrouped);
             case FRAGMENT:
                 return createFragmentMethodSpec(elementUtils, typeUtils, extraClassesGrouped);
         }
         return null;
     }
 
-    private MethodSpec createActivityMethodSpec(Elements elementUtils, Types typeUtils, ExtraClassesGrouped extraClassesGrouped) {
+    private MethodSpec createIntentMethodSpec(Elements elementUtils, Types typeUtils, ExtraClassesGrouped extraClassesGrouped) {
         final String activityQualifiedClassName = extraClassesGrouped.getExtraAnnotatedClassName();
         final TypeElement typeElement = elementUtils.getTypeElement(activityQualifiedClassName);
         final String activityName = typeElement.getSimpleName().toString();
@@ -212,6 +224,7 @@ public class ExtraUtilityClassBuilder {
 
     public void clear() {
         activityExtrasGroupedMap.clear();
+        serviceExtrasGroupedMap.clear();
         fragmentExtrasGroupedMap.clear();
     }
 }
