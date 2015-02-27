@@ -38,7 +38,7 @@ public class InjectPrimaryTypeExtrasTest extends ActivityInstrumentationTestCase
 
         Espresso.closeSoftKeyboard();
 
-        Espresso.onView(ViewMatchers.withHint(R.string.hint_true_or_false)).perform(ExtViewActions.waitForSoftKeyboard(), ViewActions.scrollTo(), ViewActions.click());
+        Espresso.onView(ViewMatchers.withHint(R.string.hint_true_or_false)).perform(ExtViewActions.waitForSoftKeyboard(), ViewActions.click());
 
         Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ViewActions.scrollTo(), ViewActions.click());
 
