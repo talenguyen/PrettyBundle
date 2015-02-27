@@ -23,6 +23,7 @@ public class InjectPrimaryTypeExtrasTest extends ActivityInstrumentationTestCase
     }
 
     public void testStartPrimaryTypeDisplayWithExtras() throws Exception {
+        Espresso.onView(ViewMatchers.withId(R.id.cbBoolean)).perform(ExtViewActions.waitForSoftKeyboard(), ViewActions.click());
         final String integerExtra = "1";
         Espresso.onView(ViewMatchers.withHint(R.string.hint_int)).perform(ViewActions.typeText(integerExtra), ViewActions.pressImeActionButton());
         final String longExtra = "2";
@@ -37,8 +38,6 @@ public class InjectPrimaryTypeExtrasTest extends ActivityInstrumentationTestCase
         Espresso.onView(ViewMatchers.withHint(R.string.hint_char_sequence)).perform(ViewActions.typeText(charSequenceExtra), ViewActions.pressImeActionButton());
 
         Espresso.closeSoftKeyboard();
-
-        Espresso.onView(ViewMatchers.withId(R.id.cbBoolean)).perform(ExtViewActions.waitForSoftKeyboard(), ViewActions.click());
 
         Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ViewActions.scrollTo(), ViewActions.click());
 

@@ -13,6 +13,17 @@
         >
 
         <TextView
+            android:text="boolean:"
+            />
+
+        <CheckBox
+            android:id="@+id/cbBoolean"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/hint_true_or_false"
+            />
+
+        <TextView
             android:text="int:"
             />
 
@@ -82,17 +93,6 @@
             android:layout_marginLeft="16dp"
             android:hint="@string/hint_char_sequence"
             android:singleLine="true"
-            />
-
-        <TextView
-            android:text="boolean:"
-            />
-
-        <CheckBox
-            android:id="@+id/cbBoolean"
-            android:layout_gravity="fill_horizontal"
-            android:layout_marginLeft="16dp"
-            android:hint="@string/hint_true_or_false"
             />
 
         <Button
