@@ -5,6 +5,7 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.CheckBox;
 
 import com.tale.prettybundle.sample.espresso.ExtViewActions;
 
@@ -13,17 +14,23 @@ import com.tale.prettybundle.sample.espresso.ExtViewActions;
  */
 public class InjectPrimaryTypeExtrasTest extends ActivityInstrumentationTestCase2<TestPrimaryTypeSetterActivity> {
 
+    private TestPrimaryTypeSetterActivity activity;
+
     public InjectPrimaryTypeExtrasTest() {
         super(TestPrimaryTypeSetterActivity.class);
     }
 
     @Override public void setUp() throws Exception {
         super.setUp();
-        getActivity();
+        activity = getActivity();
     }
 
     public void testStartPrimaryTypeDisplayWithExtras() throws Exception {
-        Espresso.onView(ViewMatchers.withId(R.id.cbBoolean)).perform(ExtViewActions.waitForSoftKeyboard(), ViewActions.click());
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override public void run() {
+                ((CheckBox) activity.findViewById(R.id.cbBoolean)).setChecked(true);
+            }
+        });
         final String integerExtra = "1";
         Espresso.onView(ViewMatchers.withHint(R.string.hint_int)).perform(ViewActions.typeText(integerExtra), ViewActions.pressImeActionButton());
         final String longExtra = "2";
@@ -39,7 +46,7 @@ public class InjectPrimaryTypeExtrasTest extends ActivityInstrumentationTestCase
 
         Espresso.closeSoftKeyboard();
 
-        Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ViewActions.scrollTo(), ViewActions.click());
+        Espresso.onView(ViewMatchers.withText(R.string.submit)).perform(ExtViewActions.waitForSoftKeyboard(), ViewActions.scrollTo(), ViewActions.click());
 
         Espresso.onView(ViewMatchers.withText(integerExtra)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withText(longExtra)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
