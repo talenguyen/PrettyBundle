@@ -1,4 +1,6 @@
-package com.tale.prettybundle;
+package com.tale.prettybundleprocessor;
+
+import com.tale.prettybundle.ExtraBinder;
 
 /**
  * Created by giang on 2/24/15.
