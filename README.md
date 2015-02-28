@@ -1,4 +1,6 @@
 # Status
+
+[![Join the chat at https://gitter.im/talenguyen/PrettyBundle](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/talenguyen/PrettyBundle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/talenguyen/PrettyBundle.svg?branch=development)](https://travis-ci.org/talenguyen/PrettyBundle)
 # PrettyBundle
 Android library which uses annotation processor to help Android Developer easy to deal with Bundle to communicate between Activity, Fragment and Service.
