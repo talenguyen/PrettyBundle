@@ -1,4 +1,4 @@
-package com.tale.prettybundle.internal;
+package com.tale.prettybundleprocessor;
 
 /**
  * Created by giang on 2/26/15.

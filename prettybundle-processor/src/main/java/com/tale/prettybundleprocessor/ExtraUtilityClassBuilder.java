@@ -1,4 +1,4 @@
-package com.tale.prettybundle.internal;
+package com.tale.prettybundleprocessor;
 
 import android.content.Context;
 import android.content.Intent;

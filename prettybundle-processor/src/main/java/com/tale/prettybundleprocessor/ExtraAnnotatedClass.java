@@ -1,7 +1,6 @@
-package com.tale.prettybundle.internal;
+package com.tale.prettybundleprocessor;
 
 import com.tale.prettybundle.ExtraBinder;
-import com.tale.prettybundle.ExtraBinderProvider;
 
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;

@@ -1,4 +1,4 @@
-package com.tale.prettybundle.internal;
+package com.tale.prettybundleprocessor;
 
 import com.google.auto.service.AutoService;
 import com.tale.prettybundle.Extra;
