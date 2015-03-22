@@ -1,1 +1,1 @@
-include ':app', ':prettybundle', ':prettybundle-processor'
+include ':app', ':prettybundle', ':prettybundleprocessor'

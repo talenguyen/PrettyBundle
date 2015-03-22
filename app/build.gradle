@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId "com.tale.prettybundle.sample"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -33,14 +33,23 @@ android {
 }
 
 dependencies {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
+    }
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile project(':prettybundle')
-    apt project(':prettybundle-processor')
+    apt project(':prettybundleprocessor')
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
-    androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
+    androidTestCompile ('com.squareup.assertj:assertj-android:1.0.0') {
+        exclude module: 'support-annotations'
+    }
 }
 
 apt {

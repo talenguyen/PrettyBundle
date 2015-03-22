@@ -16,6 +16,8 @@ targetCompatibility = JavaVersion.VERSION_1_6
 sourceCompatibility = JavaVersion.VERSION_1_6
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    provided 'com.google.android:android:4.1.1.4'
+    compile project(':prettybundle')
+    compile 'com.squareup:javapoet:1.0.0'
+    compile 'com.google.auto.service:auto-service:1.0-rc1'
+    provided "com.google.android:android:4.1.1.4"
 }

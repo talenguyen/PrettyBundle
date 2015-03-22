@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.1.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -13,13 +13,31 @@ buildscript {
 }
 
 allprojects {
+
+    version = VERSION_NAME
+
+    group = GROUP
+
     repositories {
+
         jcenter()
+
+        mavenCentral()
+
     }
+
 }
 
 ext {
 
     // the latest version of the android-apt plugin
     aptPlugin='com.neenbedankt.gradle.plugins:android-apt:1.4'
+
+    // Configuration.
+    config = [
+            minSdkVersion    : 8,
+            compileSdkVersion: 21,
+            buildToolsVersion: '21.1.2',
+            targetSdkVersion : 21
+    ]
 }
