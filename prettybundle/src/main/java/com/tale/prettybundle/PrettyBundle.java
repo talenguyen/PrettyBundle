@@ -13,13 +13,11 @@ import java.util.Map;
 
 /**
  * Bundle "injection" utilities. Use this class to simplify binding bundle values.
- * <p/>
  * Injecting bundle from your activity is as easy as:
  * <pre><code>
  * public class ExampleActivity extends Activity {
  *   {@literal @}Extra String stringExtra1;
  *   {@literal @}Extra String stringExtra2;
- * <p/>
  *   {@literal @}Override protected void onCreate(Bundle savedInstanceState) {
  *     super.onCreate(savedInstanceState);
  *     PrettyBundle.inject(this);
@@ -64,6 +62,14 @@ public final class PrettyBundle {
     }
 
     public static void inject(Fragment fragment) {
+        if (fragment == null) {
+            return;
+        }
+
+        inject(fragment, fragment.getArguments());
+    }
+
+    public static void inject(android.support.v4.app.Fragment fragment) {
         if (fragment == null) {
             return;
         }
