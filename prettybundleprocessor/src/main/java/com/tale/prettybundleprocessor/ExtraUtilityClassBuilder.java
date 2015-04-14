@@ -1,9 +1,6 @@
 package com.tale.prettybundleprocessor;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
@@ -142,20 +139,23 @@ public class ExtraUtilityClassBuilder {
         // Declare method name.
         final MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("create" + activityName + "Intent")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .returns(Intent.class);
+                .returns(Androids.intentClass());
 
         // Build parameters.
         // Add Context object.
-        methodSpecBuilder.addParameter(Context.class, "context");
+
+        methodSpecBuilder.addParameter(Androids.contextClass(), "context");
         buildParameters(methodSpecBuilder, extraClassesGrouped);
 
+        ClassName bundleClass = ClassName.get("android.os", "Bundle");
+
         // Declare bundle object.
-        methodSpecBuilder.addStatement("$T bundle = new $T()", Bundle.class, Bundle.class);
+        methodSpecBuilder.addStatement("$T bundle = new $T()", bundleClass, bundleClass);
         // Put extras base on key, value to bundle.
         bindExtras(methodSpecBuilder, extraClassesGrouped, "bundle");
 
         // Build and return Intent.
-        return methodSpecBuilder.addStatement("$T intent = new $T(context, $L)", Intent.class, Intent.class, extraClassesGrouped.getExtraAnnotatedClassName() + ".class")
+        return methodSpecBuilder.addStatement("$T intent = new $T(context, $L)", Androids.intentClass(), Androids.intentClass(), extraClassesGrouped.getExtraAnnotatedClassName() + ".class")
                 .addStatement("intent.putExtras(bundle)")
                 .addStatement("return intent")
                 .build();
@@ -174,8 +174,9 @@ public class ExtraUtilityClassBuilder {
         // Build parameters.
         buildParameters(methodSpecBuilder, extraClassesGrouped);
 
+        ClassName bundleClass = ClassName.get("android.os", "Bundle");
         // Declare bundle object.
-        methodSpecBuilder.addStatement("$T args = new $T()", Bundle.class, Bundle.class);
+        methodSpecBuilder.addStatement("$T args = new $T()", bundleClass, bundleClass);
         // Put extras base on key, value to bundle.
         bindExtras(methodSpecBuilder, extraClassesGrouped, "args");
 

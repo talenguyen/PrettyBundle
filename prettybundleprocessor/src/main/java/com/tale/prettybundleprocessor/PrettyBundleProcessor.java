@@ -135,7 +135,7 @@ public class PrettyBundleProcessor extends AbstractProcessor {
         return true;
     }
 
-    private void error(Element element, String message, String... args) {
+    private void error(Element element, String message, Object... args) {
         messager.printMessage(Diagnostic.Kind.ERROR, String.format(message, args), element);
     }
 }

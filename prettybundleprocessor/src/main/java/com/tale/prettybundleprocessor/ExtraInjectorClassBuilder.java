@@ -1,7 +1,5 @@
 package com.tale.prettybundleprocessor;
 
-import android.os.Bundle;
-
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -63,7 +61,7 @@ public class ExtraInjectorClassBuilder {
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(TypeVariableName.get(extraClassesGrouped.getExtraAnnotatedClassName()), "target")
-                .addParameter(Bundle.class, "extras");
+                .addParameter(Androids.bundleClass(), "extras");
         addInjectStatement(methodBuilder, "target", elementUtils);
         return methodBuilder
                 .build();
