@@ -69,6 +69,14 @@ public final class PrettyBundle {
         inject(fragment, fragment.getArguments());
     }
 
+    public static void inject(android.support.v4.app.Fragment fragment) {
+        if (fragment == null) {
+            return;
+        }
+
+        inject(fragment, fragment.getArguments());
+    }
+
     public static void inject(Service service, Intent intent) {
         if (service == null) {
             return;
