@@ -77,12 +77,12 @@ startService(intent);
 ```
 
 ## Download
-Latest version is **1.0.2-SNAPSHOT**
+Latest version is **1.0.2**
 
 ### Gradle
 ```gradle
-compile 'com.github.talenguyen:prettybundle:1.0.2-SNAPSHOT'
-compile 'com.github.talenguyen:prettybundleprocessor:1.0.2-SNAPSHOT'
+compile 'com.github.talenguyen:prettybundle:1.0.2'
+compile 'com.github.talenguyen:prettybundleprocessor:1.0.2'
 ```
 
 ### Maven
@@ -90,13 +90,13 @@ compile 'com.github.talenguyen:prettybundleprocessor:1.0.2-SNAPSHOT'
 <dependency>
   <groupId>com.github.talenguyen</groupId>
   <artifactId>prettybundle</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
 </dependency>
 
 <dependency>
   <groupId>com.github.talenguyen</groupId>
   <artifactId>prettybundleprocessor</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
   <optional>true</optional>
 </dependency>
 ```
