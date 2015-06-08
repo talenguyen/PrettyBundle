@@ -7,6 +7,9 @@ Android library which uses annotation processor to help Android Developer easy t
 
 PrettyBundle is inspired by [Dart](https://github.com/f2prateek/dart)
 
+## Release version 1.0.3 - 06/08/2014
+* Support to support v4 Fragment.
+
 ## Getting start
 ### Activity
 Inject extras in Activity. (Borrow the idea of ButterKnife and Dart).
@@ -77,12 +80,12 @@ startService(intent);
 ```
 
 ## Download
-Latest version is **1.0.2**
+Latest version is **1.0.3**
 
 ### Gradle
 ```gradle
-compile 'com.github.talenguyen:prettybundle:1.0.2'
-compile 'com.github.talenguyen:prettybundleprocessor:1.0.2'
+compile 'com.github.talenguyen:prettybundle:1.0.3'
+compile 'com.github.talenguyen:prettybundleprocessor:1.0.3'
 ```
 
 ### Maven
@@ -90,13 +93,13 @@ compile 'com.github.talenguyen:prettybundleprocessor:1.0.2'
 <dependency>
   <groupId>com.github.talenguyen</groupId>
   <artifactId>prettybundle</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
 </dependency>
 
 <dependency>
   <groupId>com.github.talenguyen</groupId>
   <artifactId>prettybundleprocessor</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <optional>true</optional>
 </dependency>
 ```
