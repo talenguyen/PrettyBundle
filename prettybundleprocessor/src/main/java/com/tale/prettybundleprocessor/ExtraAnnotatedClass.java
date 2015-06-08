@@ -31,7 +31,8 @@ public class ExtraAnnotatedClass {
             supportedType = SupportedType.ACTIVITY;
         } else if (types.isSubtype(parent.asType(), elements.getTypeElement("android.app.Service").asType())) {
             supportedType = SupportedType.SERVICE;
-        } else if (types.isSubtype(parent.asType(), elements.getTypeElement("android.app.Fragment").asType())) {
+        } else if (types.isSubtype(parent.asType(), elements.getTypeElement("android.app.Fragment").asType())
+                || types.isSubtype(parent.asType(), elements.getTypeElement("android.support.v4.app.Fragment").asType())) {
             supportedType = SupportedType.FRAGMENT;
         } else {
             supportedType = SupportedType.NOP;
