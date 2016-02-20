@@ -89,7 +89,7 @@ compile 'com.github.talenguyen:prettybundleprocessor:1.0.3'
 ```
 
 ### Maven
-```maven
+```xml
 <dependency>
   <groupId>com.github.talenguyen</groupId>
   <artifactId>prettybundle</artifactId>
@@ -109,7 +109,7 @@ Download [latest JARs](https://github.com/talenguyen/PrettyBundle/releases)
 
 ### License
 
-    Copyright 2015 Giang Nguyen
+    Copyright 2016 Giang Nguyen
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
